@@ -1,7 +1,7 @@
 <?php
 
 /*
- *    This file is part of the module jxBcScan for OXID eShop Community Edition.
+ *    This file is part of the module jxBarcode for OXID eShop Community Edition.
  *
  *    The module OxProbs for OXID eShop Community Edition is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
@@ -16,9 +16,9 @@
  *    You should have received a copy of the GNU General Public License
  *    along with OXID eShop Community Edition.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @link      https://github.com/job963/jxBcScan
+ * @link      https://github.com/job963/jxBarcode
  * @license   http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @copyright (C) Joachim Barthel 2012-2013
+ * @copyright (C) Joachim Barthel 2012-2014
  *
  */
  
@@ -40,16 +40,16 @@ class jxbc_receipt extends jxbcscan
 
         $sGtin = oxConfig::getParameter( 'oxgtin' );
         //$aProducts = array();
-        /*$iRows = oxConfig::getParameter( 'jxbcscan_ean_rows' );
+        /*$iRows = oxConfig::getParameter( 'jxbc_ean_rows' );
         for ($i=0; $i<$iRows; $i++) {
-            $sEAN = oxConfig::getParameter( "jxbcscan_ean_$i" );
+            $sEAN = oxConfig::getParameter( "jxbc_ean_$i" );
             echo $sEAN . ' ';
             array_push( $aProducts, $sEAN );
         }
         /**/
-        $aOxids = oxConfig::getParameter( 'jxbcscan_oxid' );
-        $aAmount = oxConfig::getParameter( 'jxbcscan_amount' );
-        $sSelOxid = oxConfig::getParameter( 'jxbcscan_productchoice' );
+        $aOxids = oxConfig::getParameter( 'jxbc_oxid' );
+        $aAmount = oxConfig::getParameter( 'jxbc_amount' );
+        $sSelOxid = oxConfig::getParameter( 'jxbc_productchoice' );
                 //echo 'sGtin='.$sGtin.'<br>';
                 //echo 'selOxid='.$sSelOxid.'<br>';
         if (isset($aOxids)) {
@@ -143,15 +143,15 @@ class jxbc_receipt extends jxbcscan
     {
         $myConfig = oxRegistry::get("oxConfig");
         
-        $aOxids = oxConfig::getParameter( 'jxbcscan_oxid' );
-        $aAmount = oxConfig::getParameter( 'jxbcscan_amount' );
+        $aOxids = oxConfig::getParameter( 'jxbc_oxid' );
+        $aAmount = oxConfig::getParameter( 'jxbc_amount' );
         $aProducts = $this->getAllArticles( $aOxids );
         $aProducts = $this->addAmount( $aAmount, $aProducts );
         /*echo '<hr><pre>';
         print_r($aProducts);
         echo '</pre><hr>'; /* */
         
-        $bConfig_UseShopStock = $myConfig->getConfigParam("bJxBcScanUseShopStock");
+        $bConfig_UseShopStock = $myConfig->getConfigParam("bJxBarcodeUseShopStock");
         if ($bConfig_UseShopStock) {
             foreach ($aProducts as $Product) {
                 $sSql = "UPDATE oxarticles SET oxstock=oxstock+{$Product['oxamount']} WHERE oxid='{$Product['oxid']}' ";
@@ -161,7 +161,7 @@ class jxbc_receipt extends jxbcscan
             }
         }
 
-        $bConfig_UseInventoryStock = $myConfig->getConfigParam("bJxBcScanUseInventoryStock");
+        $bConfig_UseInventoryStock = $myConfig->getConfigParam("bJxBarcodeUseInventoryStock");
         if ($bConfig_UseInventoryStock) {
             foreach ($aProducts as $Product) {
                 $sSql = "INSERT INTO jxinvarticles (jxartid, jxinvstock) VALUES ('{$Product['oxid']}', {$Product['oxamount']}) "
@@ -180,8 +180,8 @@ class jxbc_receipt extends jxbcscan
     {
         $myConfig = oxRegistry::get("oxConfig");
         
-        $aGtins = oxConfig::getParameter( 'jxbcscan_gtin' );
-        $aAmount = oxConfig::getParameter( 'jxbcscan_amount' );
+        $aGtins = oxConfig::getParameter( 'jxbc_gtin' );
+        $aAmount = oxConfig::getParameter( 'jxbc_amount' );
         $aProducts = $this->getAllArticles( $aGtins );
         $aProducts = $this->addAmount( $aAmount, $aProducts );
         

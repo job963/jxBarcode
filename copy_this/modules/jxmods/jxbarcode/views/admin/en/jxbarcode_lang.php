@@ -13,6 +13,10 @@ $aLang = array(
     
     'JXBC_MSG_EANNOTFOUND'      => 'EAN code not found.',
     'JXBC_MSG_RECEIPTSAVED'     => 'Goods receipt successfully saved.',
+    
+    'SHOP_MODULE_GROUP_JXBARCODE_SUPPORT'        => 'Update Stock',
+    'SHOP_MODULE_bJxBarcodeUseShopStock'         => 'Shop Stock (Display)',
+    'SHOP_MODULE_bJxBarcodeUseInventoryStock'    => 'Real Inventory (jxInventory)',
 
     'charset'                 => 'ISO-8859-15',
 );

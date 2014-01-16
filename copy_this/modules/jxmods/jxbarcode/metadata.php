@@ -32,13 +32,13 @@ $aModule = array(
                         ),
     'settings' => array(
                         array(
-                            'group' => 'JXBC_SUPPORT', 
+                            'group' => 'JXBARCODE_SUPPORT', 
                             'name'  => 'bJxBarcodeUseShopStock', 
                             'type'  => 'bool', 
                             'value' => 'false'
                             ),
                         array(
-                            'group' => 'JXBC_SUPPORT', 
+                            'group' => 'JXBARCODE_SUPPORT', 
                             'name'  => 'bJxBarcodeUseInventoryStock', 
                             'type'  => 'bool', 
                             'value' => 'false'

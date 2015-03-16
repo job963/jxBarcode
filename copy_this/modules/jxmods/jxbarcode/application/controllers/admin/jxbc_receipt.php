@@ -3,12 +3,12 @@
 /*
  *    This file is part of the module jxBarcode for OXID eShop Community Edition.
  *
- *    The module OxProbs for OXID eShop Community Edition is free software: you can redistribute it and/or modify
+ *    The module jxBarcode for OXID eShop Community Edition is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
  *    (at your option) any later version.
  *
- *    The module OxProbs for OXID eShop Community Edition is distributed in the hope that it will be useful,
+ *    The module jxBarcode for OXID eShop Community Edition is distributed in the hope that it will be useful,
  *    but WITHOUT ANY WARRANTY; without even the implied warranty of
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *    GNU General Public License for more details.
@@ -18,7 +18,7 @@
  *
  * @link      https://github.com/job963/jxBarcode
  * @license   http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @copyright (C) Joachim Barthel 2012-2014
+ * @copyright (C) Joachim Barthel 2012-2015
  *
  */
  
@@ -29,16 +29,16 @@ class jxbc_receipt extends jxbcscan
     public function render()
     {
         parent::render();
-        $oSmarty = oxUtilsView::getInstance()->getSmarty();
+        /*$oSmarty = oxUtilsView::getInstance()->getSmarty();
         $oSmarty->assign( "oViewConf", $this->_aViewData["oViewConf"]);
-        $oSmarty->assign( "shop", $this->_aViewData["shop"]);
+        $oSmarty->assign( "shop", $this->_aViewData["shop"]);*/
         
         $myConfig = oxRegistry::get("oxConfig");
         $sPicUrl = $myConfig->getPictureUrl(FALSE) . 'master/product/1';
         $sPic1Url = $myConfig->getPictureUrl(FALSE) . 'generated/product/' . '1/' . str_replace('*','_',$myConfig->getConfigParam( 'sIconsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
         $sIconUrl = $myConfig->getPictureUrl(FALSE) . 'generated/product/' . 'icon/' . str_replace('*','_',$myConfig->getConfigParam( 'sIconsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
 
-        $sGtin = oxConfig::getParameter( 'oxgtin' );
+        $sGtin = $this->getConfig()->getRequestParameter( 'oxgtin' );
         //$aProducts = array();
         /*$iRows = oxConfig::getParameter( 'jxbc_ean_rows' );
         for ($i=0; $i<$iRows; $i++) {
@@ -54,8 +54,8 @@ class jxbc_receipt extends jxbcscan
                 //echo 'selOxid='.$sSelOxid.'<br>';
         if (isset($aOxids)) {
             $aProducts = $this->getAllArticles( $aOxids );
-            $aProducts = array_reverse($aProducts); //reverse due to reverse display in tpl
             $aProducts = $this->addAmount( $aAmount, $aProducts  );
+            $aProducts = array_reverse($aProducts); //reverse due to reverse display in tpl
         }
         else
             $aProducts = array();
@@ -71,7 +71,7 @@ class jxbc_receipt extends jxbcscan
 
             if ($aProduct) {
                 if (count($aProduct) == 1) {
-                    // only on product found
+                    // only one product found by ean
                     $aOneProduct = array();
                     $aOneProduct = $aProduct[0];
                     /*echo count($aProduct). '<pre>';
@@ -98,12 +98,17 @@ class jxbc_receipt extends jxbcscan
             echo '</pre>'; /* */
         }
         
-        //--------- multiple products found, on selected by oxid
+        //--------- multiple products found, on selected by oxid through user
         if (!empty($sSelOxid)) {
             $sGtin = ''; //oxConfig::getParameter( 'jxbc_prevgtin' );
             //echo 'yet='.$this->yetScanned($sSelOxid,$aProducts).'<br>';
-            if ( $this->yetScanned($sSelOxid,$aProducts) )
+            if ( $this->yetScanned($sSelOxid,$aProducts) ) {
                 $aProducts = $this->increaseAmount( $sSelOxid, $aProducts );
+                /*echo 'sSelOxid='.$sSelOxid;
+                echo '<pre>';
+                print_r($aProducts);
+                echo '</pre>';*/
+            }
             else {
                 //echo 'selOxid='.$sSelOxid.'<br>';
                 $aOneProduct = array();
@@ -113,6 +118,10 @@ class jxbc_receipt extends jxbcscan
                 echo '</pre>'; /* */
                 array_push( $aProducts, $aOneProduct );
             }
+            $sLastOxid = $sSelOxid;
+        }
+        else {
+            $sLastOxid = $aOneProduct['oxid'];
         }
         
         if ( (count($aOneProduct) == 0) && ($sGtin != "") ) {
@@ -126,14 +135,18 @@ class jxbc_receipt extends jxbcscan
         
         $aProducts = array_reverse($aProducts); //reverse to show newest first
         
-        $oSmarty->assign("picurl",$sPicUrl);
-        $oSmarty->assign("pic1url",$sPic1Url);
-        $oSmarty->assign("iconurl",$sIconUrl);
-        //$oSmarty->assign("aGtins",$aGtins);
-        $oSmarty->assign("sprevgtin",$sPrevGtin);
-        $oSmarty->assign("aProducts",$aProducts);
-        //echo count($aProduct);
-        $oSmarty->assign("aProduct",$aProduct);
+        $oModule = oxNew('oxModule');
+        $oModule->load('jxbarcode');
+        $this->_aViewData["sModuleId"] = $oModule->getId();
+        $this->_aViewData["sModuleVersion"] = $oModule->getInfo('version');
+        
+        $this->_aViewData["picurl"] = $sPicUrl;
+        $this->_aViewData["pic1url"] = $sPic1Url;
+        $this->_aViewData["iconurl"] = $sIconUrl;
+        $this->_aViewData["sprevgtin"] = $sPrevGtin;
+        $this->_aViewData["lastoxid"] = $sLastOxid;
+        $this->_aViewData["aProducts"] = $aProducts;
+        $this->_aViewData["aProduct"] = $aProduct;
 
         return $this->_sThisTemplate;
     }

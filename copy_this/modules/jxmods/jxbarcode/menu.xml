@@ -2,12 +2,14 @@
 <OX>
     <OXMENU id="NAVIGATION_ESHOPADMIN">
         <MAINMENU id="mxmanageprod">
+            <SUBMENU id="jxbc_scan" cl="jxbc_scan">
+            </SUBMENU>
             <SUBMENU id="jxbc_receipt" cl="jxbc_receipt">
             </SUBMENU>
         </MAINMENU>
-        <MAINMENU id="mxorders">
+<!--        <MAINMENU id="mxorders">
             <SUBMENU id="jxbc_shipping" cl="jxbc_shipping">
             </SUBMENU>
-        </MAINMENU>
+        </MAINMENU> -->
     </OXMENU>
 </OX>

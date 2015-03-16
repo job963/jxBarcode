@@ -1,4 +1,3 @@
-[{*debug*}]
 [{include file="headitem.tpl" title="GENERAL_ADMIN_TITLE"|oxmultilangassign box=" "}]
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
@@ -6,8 +5,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 
-[{assign var="alertSound" value=$oViewConf->getModuleUrl('jxbarcode','out/admin/audio/Windows-Battery-Critical.mp3') }]
-[{assign var="questionSound" value=$oViewConf->getModuleUrl('jxbarcode','out/admin/audio/TortoiseSVN_Notification.mp3') }]
+[{assign var="alertSound" value=$oViewConf->getModuleUrl('jxbarcode','out/admin/audio/alert.mp3') }]
+[{assign var="questionSound" value=$oViewConf->getModuleUrl('jxbarcode','out/admin/audio/question.mp3') }]
 
 <style>
     td.jxbcTitle {
@@ -60,9 +59,10 @@
         padding-left: 8px; 
         box-shadow: 0px 0px 60px 20px #aaa; 
         width: 70%; 
+        margin: auto;
         color: #00439a; 
         background-color: #fafafa; 
-        font-size: 1.4em;   
+        font-size: 1.4em;
     }
     .artSelect legend {
         color: #ffffff; 
@@ -91,9 +91,12 @@
   }
 </script>
 
-<body onload="document.forms.jxbc.oxgtin.focus();">
+<body onload="document.forms.jxbc.oxgtin.focus();" >
 <div class="center" style="height:100%;margin-left: 10px;">
     <h1>[{ oxmultilang ident="JXBC_RECEIPT_TITLE" }]</h1>
+    <div style="position:absolute;top:4px;right:8px;color:gray;font-size:0.9em;border:1px solid gray;border-radius:3px;">
+        &nbsp;[{$sModuleId}]&nbsp;[{$sModuleVersion}]&nbsp;
+    </div>
 
     [{if $message == "ean-not-found"}]
         [{*<span class="msgError">&nbsp;[{ oxmultilang ident="JXBC_MSG_EANNOTFOUND" }]&nbsp;</span>*}]

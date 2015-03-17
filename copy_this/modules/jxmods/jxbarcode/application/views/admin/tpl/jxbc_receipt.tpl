@@ -162,9 +162,9 @@
                         <input type="radio" name="jxbc_productchoice" value="[{$Product.oxid}]" [{*name="[{$Product.oxid}]"*}] id="[{$Product.oxid}]" />[{* <span style="display:inline-block; width:100px;">[{ $Product.oxartnum }]</span>[{$Product.oxtitle}]*}]
                         <label for="[{$Product.oxid}]">
                             [{if $Product.oxactive == 1}]
-                                <img src="[{$oViewConf->getModuleUrl("jxbc","out/admin/img/ico_active.png")}]"/>
+                                <img src="[{$oViewConf->getModuleUrl("jxbarcode","out/admin/img/ico_active.png")}]"/>
                             [{else}]
-                                <img src="[{$oViewConf->getModuleUrl("jxbc","out/admin/img/ico_inactive.png")}]"/>
+                                <img src="[{$oViewConf->getModuleUrl("jxbarcode","out/admin/img/ico_inactive.png")}]"/>
                             [{/if}]
                             <span style="display:inline-block; width:175px;" accesskey="[{$i}]">[{ $Product.oxartnum }]</span>[{$Product.oxtitle}]
                             [{if $Product.oxvarselect}], [{$Product.oxvarselect}][{/if}]

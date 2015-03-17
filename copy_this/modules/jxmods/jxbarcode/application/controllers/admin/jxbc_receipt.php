@@ -22,7 +22,7 @@
  *
  */
  
-class jxbc_receipt extends jxbcscan
+class jxbc_receipt extends jxbc_scan
 {
     protected $_sThisTemplate = "jxbc_receipt.tpl";
     
@@ -47,9 +47,9 @@ class jxbc_receipt extends jxbcscan
             array_push( $aProducts, $sEAN );
         }
         /**/
-        $aOxids = oxConfig::getParameter( 'jxbc_oxid' );
-        $aAmount = oxConfig::getParameter( 'jxbc_amount' );
-        $sSelOxid = oxConfig::getParameter( 'jxbc_productchoice' );
+        $aOxids = $this->getConfig()->getRequestParameter( 'jxbc_oxid' );
+        $aAmount = $this->getConfig()->getRequestParameter( 'jxbc_amount' );
+        $sSelOxid = $this->getConfig()->getRequestParameter( 'jxbc_productchoice' );
                 //echo 'sGtin='.$sGtin.'<br>';
                 //echo 'selOxid='.$sSelOxid.'<br>';
         if (isset($aOxids)) {
@@ -128,7 +128,7 @@ class jxbc_receipt extends jxbcscan
             $oSmarty->assign("message","ean-not-found");
         }
         
-        if ( oxConfig::getParameter('fnc') == 'jxbcSaveReceipt' ) {
+        if ( $this->getConfig()->getRequestParameter('fnc') == 'jxbcSaveReceipt' ) {
             $aProducts = array();
             $oSmarty->assign("message","receipt-saved");
         }
@@ -156,8 +156,8 @@ class jxbc_receipt extends jxbcscan
     {
         $myConfig = oxRegistry::get("oxConfig");
         
-        $aOxids = oxConfig::getParameter( 'jxbc_oxid' );
-        $aAmount = oxConfig::getParameter( 'jxbc_amount' );
+        $aOxids = $this->getConfig()->getRequestParameter( 'jxbc_oxid' );
+        $aAmount = $this->getConfig()->getRequestParameter( 'jxbc_amount' );
         $aProducts = $this->getAllArticles( $aOxids );
         $aProducts = $this->addAmount( $aAmount, $aProducts );
         /*echo '<hr><pre>';

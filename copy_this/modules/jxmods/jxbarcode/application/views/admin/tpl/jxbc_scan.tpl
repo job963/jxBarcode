@@ -23,8 +23,8 @@
 <script type="text/javascript">
   if(top)
   {
-    top.sMenuItem    = "[{ oxmultilang ident="mxservice" }]";
-    top.sMenuSubItem = "[{ oxmultilang ident="jxbcscan_menu" }]";
+    top.sMenuItem    = "[{ oxmultilang ident="mxmanageprod" }]";
+    top.sMenuSubItem = "[{ oxmultilang ident="jxbc_scan" }]";
     top.sWorkArea    = "[{$_act}]";
     top.setTitle();
   }
@@ -49,7 +49,7 @@
             <form name="jxbcscan" id="jxbcscan" action="[{ $shop->selflink }]" method="post">
                 [{ $shop->hiddensid }]
                 <input type="hidden" name="editlanguage" value="[{ $editlanguage }]">
-                <input type="hidden" name="cl" value="jxbcscan">
+                <input type="hidden" name="cl" value="jxbc_scan">
                 <input type="hidden" name="fnc" value="">
                 <input type="hidden" name="oxid" value="[{ $oxid }]">
                 GTIN: <input type="text" name="oxgtin" value="[{ $aproduct.oxgtin }]">

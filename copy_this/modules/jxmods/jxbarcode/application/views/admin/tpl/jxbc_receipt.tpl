@@ -8,7 +8,17 @@
 [{assign var="alertSound" value=$oViewConf->getModuleUrl('jxbarcode','out/admin/audio/alert.mp3') }]
 [{assign var="questionSound" value=$oViewConf->getModuleUrl('jxbarcode','out/admin/audio/question.mp3') }]
 
-<style>
+[{assign var="cssFilePath" value=$oViewConf->getModulePath('jxbarcode','out/admin/src/oxprobs.css') }]
+[{php}] 
+    $sCssFilePath = $this->get_template_vars('cssFilePath');;
+    $sCssTime = filemtime( $sCssFilePath );
+    $this->assign('cssTime', $sCssTime);
+[{/php}]
+[{assign var="cssFileUrl" value=$oViewConf->getModuleUrl('jxbarcode','out/admin/src/jxbarcode.css') }]
+[{assign var="cssFileUrl" value="$cssFileUrl?$cssTime" }]
+<link href="[{$cssFileUrl}]" type="text/css" rel="stylesheet">
+
+[{*<style>
     td.jxbcTitle {
         font-size: 1.4em;
         font-weight: normal;
@@ -79,7 +89,7 @@
     .msg {
         margin: 20px;
     }
-</style>
+</style>*}]
 
 <script type="text/javascript">
   if(top)
@@ -92,33 +102,14 @@
 </script>
 
 <body onload="document.forms.jxbc.oxgtin.focus();" >
-<div class="center" style="height:100%;margin-left: 10px;">
-    <h1>[{ oxmultilang ident="JXBC_RECEIPT_TITLE" }]</h1>
+<div class="center" style="height:100%;margin-left:10px;">
+    <h3>[{ oxmultilang ident="JXBC_RECEIPT_TITLE" }]</h3>
     <div style="position:absolute;top:4px;right:8px;color:gray;font-size:0.9em;border:1px solid gray;border-radius:3px;">
         &nbsp;[{$sModuleId}]&nbsp;[{$sModuleVersion}]&nbsp;
     </div>
 
-    [{if $message == "ean-not-found"}]
-        [{*<span class="msgError">&nbsp;[{ oxmultilang ident="JXBC_MSG_EANNOTFOUND" }]&nbsp;</span>*}]
-        <div class="msg">
-            <div class="alert alert-danger alert-error">
-                <a href="#" class="close" data-dismiss="alert">&times;</a>
-                <b>[{ oxmultilang ident="JXBC_MSG_EANNOTFOUND" }]</b>
-            </div>
-        </div>
-        <audio autoplay>
-            <source src="[{$alertSound}]" type="audio/mpeg">
-            Your browser does not support the audio element.
-        </audio>
-    [{elseif $message == "receipt-saved"}]
-        [{*<span class="msgSuccess">&nbsp;[{ oxmultilang ident="JXBC_MSG_RECEIPTSAVED" }]&nbsp;</span>*}]
-        <div class="msg">
-            <div class="alert alert-success">
-                <a href="#" class="close" data-dismiss="alert">&times;</a>
-                [{ oxmultilang ident="JXBC_MSG_RECEIPTSAVED" }]
-            </div>
-        </div>
-    [{/if}]
+    [{include file="jxbc_messagebox.tpl" message=$message }]
+    
     <p>
         <form name="transfer" id="transfer" action="[{ $shop->selflink }]" method="post">
             [{ $shop->hiddensid }]
@@ -127,30 +118,48 @@
             <input type="hidden" name="updatelist" value="1">
         </form>
     
-        <div style="position:relative; top:-10px;">
-            <hr><br>
-            <form name="jxbc" id="jxbc" action="[{ $shop->selflink }]" method="post">
-                [{ $shop->hiddensid }]
-                <input type="hidden" name="editlanguage" value="[{ $editlanguage }]">
-                <input type="hidden" name="cl" value="jxbc_receipt">
-                <input type="hidden" name="fnc" value="">
-                <input type="hidden" name="oxid" value="[{ $oxid }]">
+        <div style="position:relative; top:-10px;margin-right:10px;">
+            <br />
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong><span class="glyphicon glyphicon-barcode" aria-hidden="true"></span> Artikel scannen</strong>
+                </div>
+                <div class="panel-body">
+                    <form name="jxbc" id="jxbc" action="[{ $shop->selflink }]" method="post">
+                        [{ $shop->hiddensid }]
+                        <input type="hidden" name="editlanguage" value="[{ $editlanguage }]">
+                        <input type="hidden" name="cl" value="jxbc_receipt">
+                        <input type="hidden" name="fnc" value="">
+                        <input type="hidden" name="oxid" value="[{ $oxid }]">
+
+                        GTIN: 
+                        <input type="text" name="oxgtin" value="[{ $aproduct.oxgtin }]"  autocomplete="off">&nbsp;
+                        <button type="button" class="btn btn-default btn-sm" onclick="
+                                     var sCode = document.forms['jxbc'].elements['oxgtin'].value;
+                                     if (document.forms['jxbc'].elements['oxgtin'].value == '011223344550') {
+                                         document.forms['jxbc'].elements['oxgtin'].value='';
+                                         document.forms['jxbc'].elements['fnc'].value='jxbcSaveReceipt';
+                                     } else {
+                                         document.forms['jxbc'].elements['fnc'].value='';
+                                         document.forms.jxbc.submit();
+                                     }" [{ $readonly }]>
+                            <strong>[{ oxmultilang ident="JXBC_SEARCH" }]</strong>
+                        </button>
+                        [{*<input class="edittext" type="submit" 
+                                 onclick="
+                                     var sCode = document.forms['jxbc'].elements['oxgtin'].value;
+                                     if (document.forms['jxbc'].elements['oxgtin'].value == '011223344550') {
+                                         document.forms['jxbc'].elements['oxgtin'].value='';
+                                         document.forms['jxbc'].elements['fnc'].value='jxbcSaveReceipt';
+                                     } else {
+                                         document.forms['jxbc'].elements['fnc'].value='';
+                                         document.forms.jxbc.submit();
+                                     }" 
+                                 value=" [{ oxmultilang ident="JXBC_SEARCH" }] " [{ $readonly }]><br />*}]
+                </div>
+            </div>
                 
-                GTIN: 
-                <input type="text" name="oxgtin" value="[{ $aproduct.oxgtin }]"  autocomplete="off">
-                <input class="edittext" type="submit" 
-                         onclick="
-                             var sCode = document.forms['jxbc'].elements['oxgtin'].value;
-                             if (document.forms['jxbc'].elements['oxgtin'].value == '011223344550') {
-                                 document.forms['jxbc'].elements['oxgtin'].value='';
-                                 document.forms['jxbc'].elements['fnc'].value='jxbcSaveReceipt';
-                             } else {
-                                 document.forms['jxbc'].elements['fnc'].value='';
-                                 document.forms.jxbc.submit();
-                             }" 
-                         value=" [{ oxmultilang ident="JXBC_SEARCH" }] " [{ $readonly }]><br /> <br/>
-                
-            <hr>
+            [{*<hr>*}]
             [{if $aProduct|@count > 1}]
                 <br />
                 <div class="artSelect">
@@ -200,14 +209,18 @@
                         <td class="jxbcTitle" style="color:[{$tcolor}];">[{ $Product.oxtitle }][{if $Product.oxvarselect}], [{$Product.oxvarselect}][{/if}]</td>
                         <td class="jxbcTitle" style="color:[{$tcolor}];">[{ $Product.oxgtin }]</td>
                         <td class="jxbcTitle" align="right" style="color:[{$tcolor}]};">[{ $Product.oxprice|string_format:"%.2f"  }]</td>
-                </tr>
+                    </tr>
                 [{/foreach}]
             </table>
             [{if $aProducts}]
                 <p><br />
-                <input type="submit" value=" In Lagerbestand &uuml;bernehmen " class="jxbcSubmit" 
+                <button type="button" class="btn btn-primary" onclick="document.forms['jxbc'].elements['oxgtin'].value='';document.forms['jxbc'].elements['fnc'].value='jxbcSaveReceipt';" 
+                    [{if $aProduct|@count > 1}]disabled="disabled"[{/if}]>
+                    <strong>In Lagerbestand &uuml;bernehmen</strong>
+                </button>
+                [{*<input type="submit" value=" In Lagerbestand &uuml;bernehmen " class="jxbcSubmit" 
                     onclick="document.forms['jxbc'].elements['oxgtin'].value='';document.forms['jxbc'].elements['fnc'].value='jxbcSaveReceipt';" 
-                    [{if $aProduct|@count > 1}]disabled="disabled"[{/if}] />
+                    [{if $aProduct|@count > 1}]disabled="disabled"[{/if}] />*}]
                 </p>
             [{/if}]
             </form>

@@ -41,8 +41,8 @@
 <script type="text/javascript">
   if(top)
   {
-    top.sMenuItem    = "[{ oxmultilang ident="mxmanageprod" }]";
-    top.sMenuSubItem = "[{ oxmultilang ident="jxbc_scan" }]";
+    top.sMenuItem    = "[{ oxmultilang ident="mxorders" }]";
+    top.sMenuSubItem = "[{ oxmultilang ident="jxbc_packing" }]";
     top.sWorkArea    = "[{$_act}]";
     top.setTitle();
   }
@@ -50,13 +50,13 @@
 
 <body onload="document.forms.jxbcscan.oxgtin.focus();">
 <div class="center" style="height:100%;margin-left:10px;">
-    <h3>[{ oxmultilang ident="JXBC_SCAN_TITLE" }]</h3>
+    <h3>[{ oxmultilang ident="JXBC_PACKING_TITLE" }]</h3>
     <div style="position:absolute;top:4px;right:8px;color:gray;font-size:0.9em;border:1px solid gray;border-radius:3px;">
         &nbsp;[{$sModuleId}]&nbsp;[{$sModuleVersion}]&nbsp;
     </div>
     
     [{include file="jxbc_messagebox.tpl" message=$message }]
-    
+
     <p>
         <form name="transfer" id="transfer" action="[{ $shop->selflink }]" method="post">
             [{ $shop->hiddensid }]
@@ -65,39 +65,74 @@
             <input type="hidden" name="updatelist" value="1">
         </form>
         
-        <div style="position:relative;top:-10px;margin-right:20px;">
+        <div style="position:relative; top:-10px;">
             <br />
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <strong>[{*<span class="glyphicon glyphicon-barcode" aria-hidden="true"></span> *}]Artikel scannen</strong>
-                </div>
-                <div class="panel-body">
+                [{if $jxInvoiceNo == ""}]
+                    <strong><span class="glyphicon glyphicon-barcode" aria-hidden="true"></span> Lieferschein scannen</strong>
+                    </div>
+                    <div class="panel-body">
                     <form name="jxbcscan" id="jxbcscan" action="[{ $shop->selflink }]" method="post">
                         [{ $shop->hiddensid }]
                         <input type="hidden" name="editlanguage" value="[{ $editlanguage }]">
-                        <input type="hidden" name="cl" value="jxbc_scan">
+                        <input type="hidden" name="cl" value="jxbc_packing">
                         <input type="hidden" name="fnc" value="">
                         <input type="hidden" name="oxid" value="[{ $oxid }]">
-                        
-                        <div class="input-group" style="width:400px;">
-                            <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-barcode "></span> GTIN
-                            </span>
-                            <input type="text" class="form-control" size="20" name="oxgtin" value="[{ $aproduct.oxgtin }]">
-                            <span class="input-group-btn">
-                            <button type="button" class="btn btn-primary" onclick="document.forms.jxbcscan.submit();" [{ $readonly }]>
-                                [{ oxmultilang ident="JXBC_SEARCH" }]
-                            </button>
-                            </span>
-                        </div>
+                        Inv-No: <input type="text" name="jxInvoiceNo" value="[{ $jxInvoiceNo }]">&nbsp;
+                        <button type="button" class="btn btn-default btn-sm" onclick="document.forms.jxbcscan.submit();" [{ $readonly }]>
+                            <strong>[{ oxmultilang ident="JXBC_SEARCH" }]</strong>
+                        </button>
                         [{*<input class="edittext" type="submit" 
                                  onkeyup="document.forms.jxbcscan.submit();" 
                                  value=" [{ oxmultilang ident="JXBC_SEARCH" }] " [{ $readonly }]><br /> <br/>*}]
                     </form>
+                [{else}]
+                    <strong><span class="glyphicon glyphicon-barcode" aria-hidden="true"></span> Artikel scannen</strong>
+                    </div>
+                    <div class="panel-body">
+                    <form name="jxbcscan" id="jxbcscan" action="[{ $shop->selflink }]" method="post">
+                        [{ $shop->hiddensid }]
+                        <input type="hidden" name="editlanguage" value="[{ $editlanguage }]">
+                        <input type="hidden" name="cl" value="jxbc_packing">
+                        <input type="hidden" name="fnc" value="">
+                        <input type="hidden" name="oxid" value="[{ $oxid }]">
+                        <input type="hidden" name="jxInvoiceNo" value="[{ $jxInvoiceNo }]">
+                        GTIN: <input type="text" name="jxGtin" value="[{ $aproduct.oxgtin }]">&nbsp;
+                        <button type="button" class="btn btn-default btn-sm" onclick="document.forms.jxbcscan.submit();" [{ $readonly }]>
+                            <strong>[{ oxmultilang ident="JXBC_SEARCH" }]</strong>
+                        </button>
+                        [{*<input class="edittext" type="submit" 
+                                 onkeyup="document.forms.jxbcscan.submit();" 
+                                 value=" [{ oxmultilang ident="JXBC_SEARCH" }] " [{ $readonly }]><br /> <br/>*}]
+                    </form>
+                [{/if}]
                 </div>
             </div>
-            [{*<hr>*}]
-            [{foreach item=aproduct from=$aproducts}]
+
+            <table width="95%" border="0">
+                [{foreach name=outer item=Product from=$jxPackingList}]
+                    [{if $lastoxid == $Product.oxid}]
+                        [{assign var="tcolor" value="#0000cc;font-weight:bold"}]
+                    [{else}]
+                        [{assign var="tcolor" value="#888888"}]
+                    [{/if}]
+                    <input type="hidden" name="jxbc_oxid[]" value="[{$Product.oxid}]">
+                    <tr>
+                        <td align="center"><img src="[{if $Product.oxicon==""}]
+                                            [{ $pic1url}]/[{ $Product.oxpic1 }]
+                                        [{else}]
+                                            [{ $iconurl}]/[{ $Product.oxicon }]
+                                        [{/if}]" /></td>
+                        <td><input type="text" name="jxbc_amount[]" value="[{ $Product.oxamount }]" size="2" class="jxbcNumInput" />/[{ $Product.oxamount }]</td>
+                        <td class="jxbcTitle" style="color:[{$tcolor}];">[{ $Product.oxartnum }]</td>
+                        <td class="jxbcTitle" style="color:[{$tcolor}];">[{ $Product.oxtitle }][{if $Product.oxvarselect}], [{$Product.oxvarselect}][{/if}]</td>
+                        <td class="jxbcTitle" style="color:[{$tcolor}];">[{ $Product.oxgtin }]</td>
+                        <td class="jxbcTitle" align="right" style="color:[{$tcolor}]};">[{ $Product.oxprice|string_format:"%.2f"  }]</td>
+                    </tr>
+                [{/foreach}]
+            </table>
+            [{*foreach item=aproduct from=$jxPackingList}]
                 <table>
                     <tr>
                         <td rowspan="6">
@@ -130,10 +165,7 @@
                     </tr>
                 </table>
                 <div style="height:25px; "></div>
-                [{*if $aproduct.oxpic1 }]
-                    <img src="[{ $picurl}]/[{ $aproduct.oxpic1 }]" class="jxbcscanImage" />
-                [{/if*}]
-            [{/foreach}]
+            [{/foreach*}]
         </div>
     
     </p>

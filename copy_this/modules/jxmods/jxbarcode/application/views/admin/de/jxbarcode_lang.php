@@ -4,14 +4,20 @@ $iLangNr    = 0;
 $aLang = array(
     'jxbc_scan'                 => 'Info-Scan',
     'jxbc_receipt'              => 'Wareneingang',
+    'jxbc_packing'              => 'Bestellung packen',
     
     'JXBC_SCAN_TITLE'           => 'Info-Scan',
-    'JXBC_RECEIPT_TITLE'        => 'Wareneingang scannen',
+    'JXBC_RECEIPT_TITLE'        => 'Wareneingang erfassen',
+    'JXBC_PACKING_TITLE'        => 'Bestellung packen',
+    
     'JXBC_SEARCH'               => 'Suchen',
     'JXBC_MULTIPLEFOUND'        => 'Mehrere Artikel gefunden',
     'JXBC_SELECT'               => 'Ausw&auml;hlen',
     
     'JXBC_MSG_EANNOTFOUND'      => 'EAN Code nicht gefunden.',
+    'JXBC_MSG_WRONGARTICLE'     => 'Falscher Artikel (dieser Artikel wurde nicht bestellt).',
+    'JXBC_MSG_TOMANYITEMS'      => 'Stückzahl zu hoch (zu viele gepackt).',
+    'JXBC_MSG_PACKINGDONE'      => 'Packliste vollständig.',
     'JXBC_MSG_RECEIPTSAVED'     => 'Wareneingang wurde gespeichert.',
     
     'SHOP_MODULE_GROUP_JXBARCODE_SCAN'          => 'Scan-Vorgang',

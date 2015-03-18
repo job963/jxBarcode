@@ -24,12 +24,20 @@ $aModule = array(
                         'oxorder'  => 'jxmods/jxbarcode/application/models/jxbarcode_myorder'
                         ),
     'files'        => array(
+                        'jxbarcode_events' => 'jxmods/jxbarcode/core/jxbarcode_events.php',
                         'jxbc_scan' => 'jxmods/jxbarcode/application/controllers/admin/jxbc_scan.php',
-                        'jxbc_receipt' => 'jxmods/jxbarcode/application/controllers/admin/jxbc_receipt.php'
+                        'jxbc_receipt' => 'jxmods/jxbarcode/application/controllers/admin/jxbc_receipt.php',
+                        'jxbc_packing' => 'jxmods/jxbarcode/application/controllers/admin/jxbc_packing.php'
                         ),
     'templates'    => array(
+                        'jxbc_messagebox.tpl' => 'jxmods/jxbarcode/application/views/admin/tpl/inc/jxbc_messagebox.tpl',
                         'jxbc_scan.tpl' => 'jxmods/jxbarcode/application/views/admin/tpl/jxbc_scan.tpl',
-                        'jxbc_receipt.tpl' => 'jxmods/jxbarcode/application/views/admin/tpl/jxbc_receipt.tpl'
+                        'jxbc_receipt.tpl' => 'jxmods/jxbarcode/application/views/admin/tpl/jxbc_receipt.tpl',
+                        'jxbc_packing.tpl' => 'jxmods/jxbarcode/application/views/admin/tpl/jxbc_packing.tpl'
+                        ),
+    'events'       => array(
+                        'onActivate'   => 'jxbarcode_events::onActivate', 
+                        'onDeactivate' => 'jxbarcode_events::onDeactivate'
                         ),
     'settings' => array(
                         array(

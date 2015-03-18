@@ -29,9 +29,6 @@ class jxbc_receipt extends jxbc_scan
     public function render()
     {
         parent::render();
-        /*$oSmarty = oxUtilsView::getInstance()->getSmarty();
-        $oSmarty->assign( "oViewConf", $this->_aViewData["oViewConf"]);
-        $oSmarty->assign( "shop", $this->_aViewData["shop"]);*/
         
         $myConfig = oxRegistry::get("oxConfig");
         $sPicUrl = $myConfig->getPictureUrl(FALSE) . 'master/product/1';
@@ -60,7 +57,7 @@ class jxbc_receipt extends jxbc_scan
         else
             $aProducts = array();
             
-        /* echo '<hr><pre>';
+        /*  echo '<hr><pre>';
         print_r($aGtins);
         echo '</pre><hr>'; /* */
         
@@ -113,7 +110,7 @@ class jxbc_receipt extends jxbc_scan
                 //echo 'selOxid='.$sSelOxid.'<br>';
                 $aOneProduct = array();
                 $aOneProduct = $this->getArticleById($sSelOxid);
-                /*echo count($aOneProduct). '<pre>';
+                /* echo count($aOneProduct). '<pre>';
                 print_r($aProducts);
                 echo '</pre>'; /* */
                 array_push( $aProducts, $aOneProduct );
@@ -125,12 +122,12 @@ class jxbc_receipt extends jxbc_scan
         }
         
         if ( (count($aOneProduct) == 0) && ($sGtin != "") ) {
-            $oSmarty->assign("message","ean-not-found");
+            $this->_aViewData["message"] = "ean-not-found";
         }
         
         if ( $this->getConfig()->getRequestParameter('fnc') == 'jxbcSaveReceipt' ) {
             $aProducts = array();
-            $oSmarty->assign("message","receipt-saved");
+            $this->_aViewData["message"] = "receipt-saved";
         }
         
         $aProducts = array_reverse($aProducts); //reverse to show newest first

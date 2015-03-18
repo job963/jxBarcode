@@ -56,9 +56,12 @@ class jxbc_scan extends oxAdminView
 
             $aProducts = array();
             $aProducts = $this->getArticleByGtin($sGtin); /* */
-            /*echo '<pre>';
+            /* echo '<pre>';
             print_r($aProducts);
             echo '</pre>'; /* */
+        }
+        if ( (count($aProducts) == 0) && ($sGtin != "") ) {
+            $this->_aViewData["message"] = "ean-not-found";
         }
         
         $oModule = oxNew('oxModule');

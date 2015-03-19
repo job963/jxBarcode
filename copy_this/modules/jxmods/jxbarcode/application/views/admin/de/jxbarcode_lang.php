@@ -16,8 +16,10 @@ $aLang = array(
     
     'JXBC_MSG_EANNOTFOUND'      => 'EAN Code nicht gefunden.',
     'JXBC_MSG_WRONGARTICLE'     => 'Falscher Artikel (dieser Artikel wurde nicht bestellt).',
+    'JXBC_MSG_ALREADYCHECKED'   => 'Bestellung wurde bereits gepackt und gepr&uuml;ft.',
     'JXBC_MSG_TOMANYITEMS'      => 'Stückzahl zu hoch (zu viele gepackt).',
     'JXBC_MSG_PACKINGDONE'      => 'Packliste vollständig.',
+    'JXBC_MSG_CHECKSAVED'       => 'Pr&uuml;fung gespeichert.',
     'JXBC_MSG_RECEIPTSAVED'     => 'Wareneingang wurde gespeichert.',
     
     'SHOP_MODULE_GROUP_JXBARCODE_SCAN'          => 'Scan-Vorgang',

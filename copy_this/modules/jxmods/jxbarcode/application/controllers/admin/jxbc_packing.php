@@ -36,10 +36,42 @@ class jxbc_packing extends jxbc_scan
         $sInvoiceNo = $this->getConfig()->getRequestParameter( 'jxInvoiceNo' );
         if ( !$sInvoiceNo ) {
             $aPackingList = array();
+            $aOxid = array();
+            $aPieces = array();
+        }
+        elseif ( $this->isPackingChecked($sInvoiceNo) ) {
+            $sInvoiceNo = '';
+            if ( $this->getConfig()->getRequestParameter( 'fnc' ) == 'jxbcSavePackingList' ) {
+                $this->_aViewData["message"] = "check-saved";
+            }
+            else {
+                $this->_aViewData["message"] = "already-checked";
+            }
+            $aPackingList = array();
+            $aOxid = array();
+            $aPieces = array();
         }
         else {
             $sGtin = $this->getConfig()->getRequestParameter( 'jxGtin' );
             $aPackingList = $this->getPackingList($sInvoiceNo);
+            $aPieces = $this->getConfig()->getRequestParameter( 'jxbc_pieces' );
+            $aPackingList = $this->addPieces( $aPieces, $aPackingList );
+
+            if ( $sGtin ) {
+                // add new piece of article based on the scanned GTIN
+                if ( $this->isGtinInPackingList( $sGtin, $aPackingList ) ) {
+                    $aPackingList = $this->addPieceToPacking( $sGtin, $aPackingList );
+                }
+                else {
+                    $this->_aViewData["message"] = "wrong-article";
+                }
+            }
+            if ( $this->checkPackingDone($aPackingList) == 1 ) {
+                $this->_aViewData["message"] = "packing-done";
+            }
+            if ( $this->checkPackingDone($aPackingList) == 2 ) {
+                $this->_aViewData["message"] = "to-many-items";
+            }
         }
 
         $oModule = oxNew('oxModule');
@@ -51,8 +83,8 @@ class jxbc_packing extends jxbc_scan
         $this->_aViewData["pic1url"] = $sPic1Url;
         $this->_aViewData["iconurl"] = $sIconUrl;
 
-        $this->_aViewData["jxInvoiceNo"] = $sInvoiceNo;
-        $this->_aViewData["jxPackingList"] = $aPackingList;
+        $this->_aViewData["sInvoiceNo"] = $sInvoiceNo;
+        $this->_aViewData["aPackingList"] = $aPackingList;
 
         return $this->_sThisTemplate;
     }
@@ -89,11 +121,89 @@ class jxbc_packing extends jxbc_scan
             array_push($aProdList, $rs->fields);
             $rs->MoveNext();
         }
-        /*echo 'aProdList:<pre>';
-        print_r($aProdList);
-        echo '</pre>';*/
         
         return $aProdList;
+    }
+    
+    
+    public function addPieces( $aPieces, $aPackingList )
+    {
+        foreach ($aPackingList as $key => $Product) {
+            $aPackingList[$key]['pieces'] = $aPieces[$key];
+        }
+        return $aPackingList;
+    }
+    
+    
+    public function checkPackingDone( $aPackingList )
+    {
+        $done = TRUE;
+        $over = FALSE;
+        foreach ($aPackingList as $key => $aProduct) {
+            if ( $aProduct['pieces'] < $aProduct['oxamount'] ){
+                $done = FALSE;
+            }
+            elseif ( $aProduct['pieces'] > $aProduct['oxamount'] ){
+                $over = TRUE;
+            }
+        }
+        
+        if ( $over )
+            return 2;
+        elseif ( $done )
+            return 1;
+        else
+            return 0;
+    }
+    
+    
+    public function isGtinInPackingList( $sGtin, $aPackingList )
+    {
+        foreach ($aPackingList as $key => $aProduct) {
+            if ( $aProduct['oxgtin'] == $sGtin ) {
+                return TRUE;
+            }
+        }
+        return FALSE;
+    }
+    
+    
+    public function isPackingChecked( $sInvoiceNo )
+    {
+        $oDb = oxDb::getDb();
+        if ( $oDb->getOne( "SELECT jxpackinguserid FROM oxorder WHERE oxbillnr='{$sInvoiceNo}' AND jxpackingcheck != '0000-00-00 00:00:00' ", false, false ) ) {
+            return TRUE;
+        }
+        return FALSE;
+    }
+    
+    
+    public function addPieceToPacking( $sGtin, $aPackingList )
+    {
+        foreach ($aPackingList as $key => $aProduct) {
+            if ( $aProduct['oxgtin'] == $sGtin ) {
+                $aPackingList[$key]['pieces'] = (int)$aPackingList[$key]['pieces'] + 1;
+            }
+        }
+        return $aPackingList;
+    }
+    
+    
+    public function jxbcSavePackingList()
+    {
+        $myConfig = oxRegistry::get("oxConfig");
+        
+        $sInvoiceNo = $this->getConfig()->getRequestParameter( 'jxInvoiceNo' );
+        $sDate = date("Y-m-d H:i:s");
+        $oUser = $this->getUser(); 
+        $sUserId = $oUser->getId(); 
+        
+        $sSql = "UPDATE oxorder SET jxpackingcheck='{$sDate}', jxpackinguserid='{$sUserId}' WHERE oxbillnr='{$sInvoiceNo}' ";
+        //echo $sSql.'<br>';
+        $oDb = oxDb::getDb();
+        $ret = $oDb->Execute($sSql);
+        
+        return;
     }
     
 }

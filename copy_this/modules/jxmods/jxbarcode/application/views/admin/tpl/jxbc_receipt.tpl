@@ -18,78 +18,6 @@
 [{assign var="cssFileUrl" value="$cssFileUrl?$cssTime" }]
 <link href="[{$cssFileUrl}]" type="text/css" rel="stylesheet">
 
-[{*<style>
-    td.jxbcTitle {
-        font-size: 1.4em;
-        font-weight: normal;
-    }
-    td.jxbcValue {
-        font-size: 1.4em;
-        font-weight: bold;
-        padding-left: 20px;
-    }
-    img.jxbcImage {
-        width:400px; 
-        height:auto;
-    }
-    input.jxbcNumInput {
-        font-size: 1.4em;
-        padding-right: 4px;
-        text-align: right;
-    }
-    input.jxbcSubmit {
-        font-size: 1.4em;
-    }
-    span.msgError {
-        position: relative; 
-        top: -20px; 
-        color: #dd0000;
-        font-weight: bold;
-        font-size: 1.4em;
-        border: 1px solid #dd0000;
-        border-radius: 6px;
-        padding: 2px;
-        background-color: #ffc0c0;
-    }
-    span.msgSuccess {
-        position: relative; 
-        top: -20px; 
-        color: #009900;
-        font-weight: bold; 
-        font-size: 1.4em;
-        border: 1px solid #00bb00;
-        border-radius: 6px;
-        padding: 2px;
-        background-color: #c0ffc0;
-    }
-    .artSelect fieldset {
-        border: 1px solid #00439a; 
-        border-radius: 8px; 
-        padding: 12px; 
-        padding-left: 8px; 
-        box-shadow: 0px 0px 60px 20px #aaa; 
-        width: 70%; 
-        margin: auto;
-        color: #00439a; 
-        background-color: #fafafa; 
-        font-size: 1.4em;
-    }
-    .artSelect legend {
-        color: #ffffff; 
-        background-color: #00439a; 
-        border: 1px solid #0053be; 
-        border-radius: 4px    
-    }
-    .artSelect input {
-        color: #00439a; 
-        font-size: 1.0em; 
-        font-weight: bold;
-    }
-    
-    .msg {
-        margin: 20px;
-    }
-</style>*}]
 
 <script type="text/javascript">
   if(top)
@@ -122,7 +50,7 @@
             <br />
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <strong>[{*<span class="glyphicon glyphicon-barcode" aria-hidden="true">*}]</span> Artikel scannen</strong>
+                    <strong>Artikel scannen</strong>
                 </div>
                 <div class="panel-body">
                     <form name="jxbc" id="jxbc" action="[{ $shop->selflink }]" method="post">
@@ -151,17 +79,6 @@
                                 </button>
                             </span>
                         </div>
-                        [{*<input class="edittext" type="submit" 
-                                 onclick="
-                                     var sCode = document.forms['jxbc'].elements['oxgtin'].value;
-                                     if (document.forms['jxbc'].elements['oxgtin'].value == '011223344550') {
-                                         document.forms['jxbc'].elements['oxgtin'].value='';
-                                         document.forms['jxbc'].elements['fnc'].value='jxbcSaveReceipt';
-                                     } else {
-                                         document.forms['jxbc'].elements['fnc'].value='';
-                                         document.forms.jxbc.submit();
-                                     }" 
-                                 value=" [{ oxmultilang ident="JXBC_SEARCH" }] " [{ $readonly }]><br />*}]
                 </div>
             </div>
                 

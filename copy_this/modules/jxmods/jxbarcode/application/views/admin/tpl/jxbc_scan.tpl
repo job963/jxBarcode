@@ -18,25 +18,6 @@
 [{assign var="cssFileUrl" value="$cssFileUrl?$cssTime" }]
 <link href="[{$cssFileUrl}]" type="text/css" rel="stylesheet">
 
-[{*<style>
-    td.jxbcscanTitle {
-        font-size: 1.5em;
-        font-weight: normal;
-        color: dimgray;
-    }
-    td.jxbcscanValue {
-        font-size: 1.5em;
-        font-weight: bold;
-        padding-left: 20px;
-    }
-    img.jxbcscanImage {
-        width: 200px; 
-        height: auto;
-        margin-right: 20px;
-        border: 1px solid lightgray;
-        box-shadow: 4px 4px 4px #aaa;
-    }
-</style>*}]
 
 <script type="text/javascript">
   if(top)
@@ -85,7 +66,7 @@
                             </span>
                             <input type="text" class="form-control" name="oxgtin" value="[{ $aproduct.oxgtin }]" autocomplete="off" />
                             <span class="input-group-btn">
-                            <button type="button" class="btn btn-primary" onclick="document.forms.jxbcscan.submit();" [{ $readonly }]>
+                            <button type="submit" class="btn btn-primary" onclick="document.forms.jxbcscan.submit();" [{ $readonly }]>
                                 [{ oxmultilang ident="JXBC_SEARCH" }]
                             </button>
                             </span>
@@ -130,30 +111,10 @@
                     </tr>
                 </table>
                 <div style="height:25px; "></div>
-                [{*if $aproduct.oxpic1 }]
-                    <img src="[{ $picurl}]/[{ $aproduct.oxpic1 }]" class="jxbcscanImage" />
-                [{/if*}]
             [{/foreach}]
         </div>
     
     </p>
-    [{*<div style="position:absolute; bottom:0px; left:0px; height:50px; background-color:#dd0000;"></div>
-    <table width="99%">
-        <tr>
-            <td><img src="[{ $thumburl}]/[{ $aproduct.oxpic1 }]" /></td>
-            <td class="jxbcscanTitle">[{ $aproduct.oxartnum }]</td>
-            <td class="jxbcscanTitle">[{ $aproduct.oxtitle }]</td>
-            <td class="jxbcscanTitle">[{ $aproduct.oxgtin }]</td>
-            <td class="jxbcscanTitle">[{ $aproduct.oxprice }]</td>
-        </tr>
-        <tr>
-            <td><img src="[{ $thumburl}]/[{ $aproduct.oxpic1 }]" /></td>
-            <td class="jxbcscanTitle">[{ $aproduct.oxartnum }]</td>
-            <td class="jxbcscanTitle">[{ $aproduct.oxtitle }]</td>
-            <td class="jxbcscanTitle">[{ $aproduct.oxgtin }]</td>
-            <td class="jxbcscanTitle">[{ $aproduct.oxprice }]</td>
-        </tr>
-    </table>*}]
 
 </div>
 </body>

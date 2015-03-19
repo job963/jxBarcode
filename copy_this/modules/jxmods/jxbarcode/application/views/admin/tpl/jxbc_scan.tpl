@@ -83,7 +83,7 @@
                             <span class="input-group-addon">
                                 <span class="glyphicon glyphicon-barcode "></span> GTIN
                             </span>
-                            <input type="text" class="form-control" size="20" name="oxgtin" value="[{ $aproduct.oxgtin }]">
+                            <input type="text" class="form-control" name="oxgtin" value="[{ $aproduct.oxgtin }]" autocomplete="off" />
                             <span class="input-group-btn">
                             <button type="button" class="btn btn-primary" onclick="document.forms.jxbcscan.submit();" [{ $readonly }]>
                                 [{ oxmultilang ident="JXBC_SEARCH" }]

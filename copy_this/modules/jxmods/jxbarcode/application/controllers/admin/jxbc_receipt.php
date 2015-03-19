@@ -140,6 +140,7 @@ class jxbc_receipt extends jxbc_scan
         $this->_aViewData["picurl"] = $sPicUrl;
         $this->_aViewData["pic1url"] = $sPic1Url;
         $this->_aViewData["iconurl"] = $sIconUrl;
+        
         $this->_aViewData["sprevgtin"] = $sPrevGtin;
         $this->_aViewData["lastoxid"] = $sLastOxid;
         $this->_aViewData["aProducts"] = $aProducts;

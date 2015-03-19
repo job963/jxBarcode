@@ -28,6 +28,11 @@ class jxbc_packing extends jxbc_scan
     
     public function render()
     {
+        $myConfig = oxRegistry::get("oxConfig");
+        $sPicUrl = $myConfig->getPictureUrl(FALSE) . 'master/product/1';
+        $sPic1Url = $myConfig->getPictureUrl(FALSE) . 'generated/product/' . '1/' . str_replace('*','_',$myConfig->getConfigParam( 'sIconsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
+        $sIconUrl = $myConfig->getPictureUrl(FALSE) . 'generated/product/' . 'icon/' . str_replace('*','_',$myConfig->getConfigParam( 'sIconsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
+
         $sInvoiceNo = $this->getConfig()->getRequestParameter( 'jxInvoiceNo' );
         if ( !$sInvoiceNo ) {
             $aPackingList = array();
@@ -41,6 +46,10 @@ class jxbc_packing extends jxbc_scan
         $oModule->load('jxbarcode');
         $this->_aViewData["sModuleId"] = $oModule->getId();
         $this->_aViewData["sModuleVersion"] = $oModule->getInfo('version');
+        
+        $this->_aViewData["picurl"] = $sPicUrl;
+        $this->_aViewData["pic1url"] = $sPic1Url;
+        $this->_aViewData["iconurl"] = $sIconUrl;
 
         $this->_aViewData["jxInvoiceNo"] = $sInvoiceNo;
         $this->_aViewData["jxPackingList"] = $aPackingList;
@@ -55,7 +64,9 @@ class jxbc_packing extends jxbc_scan
         $eanField = $myConfig->getConfigParam( "sJxBarcodeEanField" );
 
         $sSql = "SELECT oa.oxid, oa.oxartnum, oa.oxtitle, oa.oxselvariant, 0 AS jxchecked, a.{$eanField} AS oxgtin,"
-                    . "oa.oxbprice, oa.oxprice, a.oxstock, oa.oxamount AS oxamount "
+                    . "oa.oxbprice, oa.oxprice, a.oxstock, oa.oxamount AS oxamount, "
+                    . "IF(a.oxparentid != '' && a.oxicon = '' ,(SELECT c.oxicon FROM oxarticles c WHERE c.oxid=a.oxparentid),a.oxicon) AS oxicon, "
+                    . "IF(a.oxparentid != '' && a.oxpic1 = '' ,(SELECT c.oxpic1 FROM oxarticles c WHERE c.oxid=a.oxparentid),a.oxpic1) AS oxpic1 "
                 . "FROM oxorderarticles oa, oxorder o, oxarticles a "
                 . "WHERE "
                     . "oa.oxorderid = o.oxid "

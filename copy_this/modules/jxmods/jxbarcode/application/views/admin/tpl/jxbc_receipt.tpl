@@ -122,7 +122,7 @@
             <br />
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <strong><span class="glyphicon glyphicon-barcode" aria-hidden="true"></span> Artikel scannen</strong>
+                    <strong>[{*<span class="glyphicon glyphicon-barcode" aria-hidden="true">*}]</span> Artikel scannen</strong>
                 </div>
                 <div class="panel-body">
                     <form name="jxbc" id="jxbc" action="[{ $shop->selflink }]" method="post">
@@ -132,19 +132,25 @@
                         <input type="hidden" name="fnc" value="">
                         <input type="hidden" name="oxid" value="[{ $oxid }]">
 
-                        GTIN: 
-                        <input type="text" name="oxgtin" value="[{ $aproduct.oxgtin }]"  autocomplete="off">&nbsp;
-                        <button type="button" class="btn btn-default btn-sm" onclick="
-                                     var sCode = document.forms['jxbc'].elements['oxgtin'].value;
-                                     if (document.forms['jxbc'].elements['oxgtin'].value == '011223344550') {
-                                         document.forms['jxbc'].elements['oxgtin'].value='';
-                                         document.forms['jxbc'].elements['fnc'].value='jxbcSaveReceipt';
-                                     } else {
-                                         document.forms['jxbc'].elements['fnc'].value='';
-                                         document.forms.jxbc.submit();
-                                     }" [{ $readonly }]>
-                            <strong>[{ oxmultilang ident="JXBC_SEARCH" }]</strong>
-                        </button>
+                        <div class="input-group" style="width:400px;">
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-barcode "></span> GTIN
+                            </span>
+                            <input type="text" class="form-control" name="oxgtin" value="[{ $aproduct.oxgtin }]" autocomplete="off" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-primary" onclick="
+                                             var sCode = document.forms['jxbc'].elements['oxgtin'].value;
+                                             if (document.forms['jxbc'].elements['oxgtin'].value == '011223344550') {
+                                                 document.forms['jxbc'].elements['oxgtin'].value='';
+                                                 document.forms['jxbc'].elements['fnc'].value='jxbcSaveReceipt';
+                                             } else {
+                                                 document.forms['jxbc'].elements['fnc'].value='';
+                                                 document.forms.jxbc.submit();
+                                             }" [{ $readonly }]>
+                                    <strong>[{ oxmultilang ident="JXBC_SEARCH" }]</strong>
+                                </button>
+                            </span>
+                        </div>
                         [{*<input class="edittext" type="submit" 
                                  onclick="
                                      var sCode = document.forms['jxbc'].elements['oxgtin'].value;
@@ -193,17 +199,19 @@
             <table width="95%" border="0">
                 [{foreach name=outer item=Product from=$aProducts}]
                     [{if $lastoxid == $Product.oxid}]
-                        [{assign var="tcolor" value="#0000cc;font-weight:bold"}]
+                        [{assign var="tcolor" value="#0000aa;font-weight:bold"}]
                     [{else}]
                         [{assign var="tcolor" value="#888888"}]
                     [{/if}]
                     <input type="hidden" name="jxbc_oxid[]" value="[{$Product.oxid}]">
                     <tr>
-                        <td align="center"><img src="[{if $Product.oxicon==""}]
-                                            [{ $pic1url}]/[{ $Product.oxpic1 }]
-                                        [{else}]
-                                            [{ $iconurl}]/[{ $Product.oxicon }]
-                                        [{/if}]" /></td>
+                        <td align="center">
+                            <img src="[{if $Product.oxicon==""}]
+                                    [{ $pic1url}]/[{ $Product.oxpic1 }]
+                                [{else}]
+                                    [{ $iconurl}]/[{ $Product.oxicon }]
+                                [{/if}]" />
+                        </td>
                         <td><input type="text" name="jxbc_amount[]" value="[{ $Product.oxamount }]" size="2" class="jxbcNumInput" /></td>
                         <td class="jxbcTitle" style="color:[{$tcolor}];">[{ $Product.oxartnum }]</td>
                         <td class="jxbcTitle" style="color:[{$tcolor}];">[{ $Product.oxtitle }][{if $Product.oxvarselect}], [{$Product.oxvarselect}][{/if}]</td>
@@ -214,7 +222,7 @@
             </table>
             [{if $aProducts}]
                 <p><br />
-                <button type="button" class="btn btn-primary" onclick="document.forms['jxbc'].elements['oxgtin'].value='';document.forms['jxbc'].elements['fnc'].value='jxbcSaveReceipt';" 
+                <button type="button" class="btn btn-success" onclick="document.forms['jxbc'].elements['oxgtin'].value='';document.forms['jxbc'].elements['fnc'].value='jxbcSaveReceipt';" 
                     [{if $aProduct|@count > 1}]disabled="disabled"[{/if}]>
                     <strong>In Lagerbestand &uuml;bernehmen</strong>
                 </button>

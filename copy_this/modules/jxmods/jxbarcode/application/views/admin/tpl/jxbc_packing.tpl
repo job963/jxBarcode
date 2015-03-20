@@ -71,7 +71,7 @@
                 [{if $sInvoiceNo == ""}]
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <strong>[{*<span class="glyphicon glyphicon-barcode" aria-hidden="true"></span>*}] Lieferschein scannen</strong>
+                    <strong>[{*<span class="glyphicon glyphicon-barcode" aria-hidden="true"></span>*}] [{ oxmultilang ident="JXBC_SCANDELIVERYNOTE" }]</strong>
                     </div>
                     <div class="panel-body">
                     [{*<form name="jxbcscan" id="jxbcscan" action="[{ $shop->selflink }]" method="post">*}]
@@ -101,7 +101,7 @@
                 [{elseif $message != "packing-done" }]
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <strong>[{*<span class="glyphicon glyphicon-barcode" aria-hidden="true"></span>*}] Lieferschein Nr. [{ $sInvoiceNo }] - Artikel scannen</strong>
+                    <strong>[{*<span class="glyphicon glyphicon-barcode" aria-hidden="true"></span>*}] [{ oxmultilang ident="JXBC_DELIVERYNOTENO" }] [{ $sInvoiceNo }] - [{ oxmultilang ident="JXBC_SCANARTICLE" }]</strong>
                     </div>
                     <div class="panel-body">
                     [{*<form name="jxbcscan" id="jxbcscan" action="[{ $shop->selflink }]" method="post">*}]
@@ -165,8 +165,8 @@
                     <input type="hidden" name="jxInvoiceNo" value="[{ $sInvoiceNo }]">
                     <button type="submit" class="btn btn-success btn-lg" onclick="document.forms['jxbc'].elements['fnc'].value='jxbcSavePackingList';" 
                         [{if $aProduct|@count > 1}]disabled="disabled"[{/if}]>
-                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                        <strong>Packliste gepr&uuml;ft</strong>
+                        [{*<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>*}]
+                        <strong>[{ oxmultilang ident="JXBC_PACKINGCHECKED" }]</strong>
                     </button>
                 [{/if}]
             </form>

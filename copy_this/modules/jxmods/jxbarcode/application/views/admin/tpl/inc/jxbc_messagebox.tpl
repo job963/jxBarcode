@@ -3,6 +3,7 @@
         <div class="msg">
             <div class="alert alert-danger alert-error">
                 <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
                 <b>[{ oxmultilang ident="JXBC_MSG_EANNOTFOUND" }]</b>
             </div>
         </div>
@@ -14,6 +15,7 @@
         <div class="msg">
             <div class="alert alert-danger alert-error">
                 <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
                 <b>[{ oxmultilang ident="JXBC_MSG_WRONGARTICLE" }]</b>
             </div>
         </div>
@@ -25,6 +27,7 @@
         <div class="msg">
             <div class="alert alert-warning alert-error">
                 <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
                 <b>[{ oxmultilang ident="JXBC_MSG_ALREADYCHECKED" }]</b>
             </div>
         </div>
@@ -36,6 +39,7 @@
         <div class="msg">
             <div class="alert alert-warning alert-error">
                 <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
                 <b>[{ oxmultilang ident="JXBC_MSG_TOMANYITEMS" }]</b>
             </div>
         </div>
@@ -47,6 +51,7 @@
         <div class="msg">
             <div class="alert alert-success">
                 <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
                 <b>[{ oxmultilang ident="JXBC_MSG_PACKINGDONE" }]</b>
             </div>
         </div>
@@ -54,6 +59,7 @@
         <div class="msg">
             <div class="alert alert-success">
                 <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
                 <b>[{ oxmultilang ident="JXBC_MSG_CHECKSAVED" }]</b>
             </div>
         </div>
@@ -61,6 +67,7 @@
         <div class="msg">
             <div class="alert alert-success">
                 <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
                 <b>[{ oxmultilang ident="JXBC_MSG_RECEIPTSAVED" }]</b>
             </div>
         </div>

@@ -13,6 +13,10 @@ $aLang = array(
     'JXBC_SEARCH'               => 'Suchen',
     'JXBC_MULTIPLEFOUND'        => 'Mehrere Artikel gefunden',
     'JXBC_SELECT'               => 'Ausw&auml;hlen',
+    'JXBC_SCANDELIVERYNOTE'     => 'Lieferschein scannen',
+    'JXBC_DELIVERYNOTENO'       => 'Lieferschein Nr.',
+    'JXBC_SCANARTICLE'          => 'Artikel scannen',
+    'JXBC_PACKINGCHECKED'       => 'Packliste gepr&uuml;ft',
     
     'JXBC_MSG_EANNOTFOUND'      => 'EAN Code nicht gefunden.',
     'JXBC_MSG_WRONGARTICLE'     => 'Falscher Artikel (dieser Artikel wurde nicht bestellt).',

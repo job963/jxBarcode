@@ -139,7 +139,7 @@
             </table>
             [{if $aProducts}]
                 <p><br />
-                <button type="button" class="btn btn-success" onclick="document.forms['jxbc'].elements['oxgtin'].value='';document.forms['jxbc'].elements['fnc'].value='jxbcSaveReceipt';" 
+                <button type="submit" class="btn btn-success btn-lg" onclick="document.forms['jxbc'].elements['oxgtin'].value='';document.forms['jxbc'].elements['fnc'].value='jxbcSaveReceipt';" 
                     [{if $aProduct|@count > 1}]disabled="disabled"[{/if}]>
                     <strong>In Lagerbestand &uuml;bernehmen</strong>
                 </button>

@@ -33,13 +33,29 @@ class jxBarcode_Events
 
         $aSql = array();
         $aSql[] = array(
-                    "field"     => "JXPACKINGCHECKED",
-                    "statement" => "ALTER TABLE `oxorder` ADD COLUMN `JXPACKINGCHECKED` TINYINT(4) NOT NULL DEFAULT '0'  "
+                    "table"     => "oxorder",
+                    "field"     => "JXPACKINGCHECK",
+                    "statement" => "ALTER TABLE `oxorder` ADD COLUMN `JXPACKINGCHECK` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'  "
+                ); 
+        $aSql[] = array(
+                    "table"     => "oxorder",
+                    "field"     => "JXPACKINGUSERID",
+                    "statement" => "ALTER TABLE `oxorder` ADD COLUMN `JXPACKINGUSERID` CHAR(32) NOT NULL  "
+                ); 
+        $aSql[] = array(
+                    "table"     => "oxorderarticles",
+                    "field"     => "JXSEND",
+                    "statement" => "ALTER TABLE `oxorderarticles` ADD COLUMN `JXSEND` TINYINT(4) NOT NULL DEFAULT '0'  "
+                ); 
+        $aSql[] = array(
+                    "table"     => "oxorderarticles",
+                    "field"     => "JXSENDDATE",
+                    "statement" => "ALTER TABLE `oxorderarticles` ADD COLUMN `JXSENDDATE` DATE NULL DEFAULT '0000-00-00'  "
                 ); 
         
         try {
             foreach ($aSql as $sSql) {
-                if ( !$oDb->getOne( "SHOW COLUMNS FROM oxorder LIKE '{$sSql['field']}'", false, false ) ) {
+                if ( !$oDb->getOne( "SHOW COLUMNS FROM {$sSql['table']} LIKE '{$sSql['field']}'", false, false ) ) {
                     $oRs = $oDb->Execute($sSql['statement']);
                 }
             }

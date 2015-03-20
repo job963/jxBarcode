@@ -50,7 +50,7 @@
             <br />
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <strong>Artikel scannen</strong>
+                    <strong>[{ oxmultilang ident="JXBC_SCANARTICLE" }]</strong>
                 </div>
                 <div class="panel-body">
                     <form name="jxbc" id="jxbc" action="[{ $shop->selflink }]" method="post">
@@ -62,7 +62,7 @@
 
                         <div class="input-group" style="width:400px;">
                             <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-barcode "></span> GTIN
+                                <span class="glyphicon glyphicon-barcode "></span> [{ oxmultilang ident="JXBC_GTIN" }]
                             </span>
                             <input type="text" class="form-control" name="oxgtin" value="[{ $aproduct.oxgtin }]" autocomplete="off" />
                             <span class="input-group-btn">
@@ -141,7 +141,12 @@
                 <p><br />
                 <button type="submit" class="btn btn-success btn-lg" onclick="document.forms['jxbc'].elements['oxgtin'].value='';document.forms['jxbc'].elements['fnc'].value='jxbcSaveReceipt';" 
                     [{if $aProduct|@count > 1}]disabled="disabled"[{/if}]>
-                    <strong>In Lagerbestand &uuml;bernehmen</strong>
+                    [{ oxmultilang ident="JXBC_ADDTOSTOCK" }]
+                </button>
+                &nbsp;&nbsp;
+                <button type="submit" class="btn btn-warning btn-lg" onclick="document.forms['jxbc'].elements['oxgtin'].value='';document.forms['jxbc'].elements['fnc'].value='jxbcUpdateStock';" 
+                    [{if $aProduct|@count > 1}]disabled="disabled"[{/if}]>
+                    [{ oxmultilang ident="JXBC_UPDATESTOCK" }]
                 </button>
                 [{*<input type="submit" value=" In Lagerbestand &uuml;bernehmen " class="jxbcSubmit" 
                     onclick="document.forms['jxbc'].elements['oxgtin'].value='';document.forms['jxbc'].elements['fnc'].value='jxbcSaveReceipt';" 

@@ -50,7 +50,7 @@
             <br />
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <strong>[{*<span class="glyphicon glyphicon-barcode" aria-hidden="true"></span> *}]Artikel scannen</strong>
+                    <strong>[{*<span class="glyphicon glyphicon-barcode" aria-hidden="true"></span> *}][{ oxmultilang ident="JXBC_SCANARTICLE" }]</strong>
                 </div>
                 <div class="panel-body">
                     <form name="jxbcscan" id="jxbcscan" action="[{ $shop->selflink }]" method="post">
@@ -62,7 +62,7 @@
                         
                         <div class="input-group" style="width:400px;">
                             <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-barcode "></span> GTIN
+                                <span class="glyphicon glyphicon-barcode "></span> [{ oxmultilang ident="JXBC_GTIN" }]
                             </span>
                             <input type="text" class="form-control" name="oxgtin" value="[{ $aproduct.oxgtin }]" autocomplete="off" />
                             <span class="input-group-btn">
@@ -77,7 +77,7 @@
                     </form>
                 </div>
             </div>
-            [{*<hr>*}]
+
             [{foreach item=aproduct from=$aproducts}]
                 <table>
                     <tr>

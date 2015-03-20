@@ -162,12 +162,12 @@ class jxbc_receipt extends jxbc_scan
         print_r($aProducts);
         echo '</pre><hr>'; /* */
         
+        $oDb = oxDb::getDb();
         $bConfig_UseShopStock = $myConfig->getConfigParam("bJxBarcodeUseShopStock");
         if ($bConfig_UseShopStock) {
             foreach ($aProducts as $Product) {
                 $sSql = "UPDATE oxarticles SET oxstock=oxstock+{$Product['oxamount']} WHERE oxid='{$Product['oxid']}' ";
                 //echo $sSql.'<br>';
-                $oDb = oxDb::getDb();
                 $ret = $oDb->Execute($sSql);
             }
         }
@@ -178,7 +178,42 @@ class jxbc_receipt extends jxbc_scan
                 $sSql = "INSERT INTO jxinvarticles (jxartid, jxinvstock) VALUES ('{$Product['oxid']}', {$Product['oxamount']}) "
                       . "ON DUPLICATE KEY UPDATE jxinvstock=jxinvstock+{$Product['oxamount']} ";
                 //echo $sSql.'<br>';
-                $oDb = oxDb::getDb();
+                $ret = $oDb->Execute($sSql);
+            }
+        }
+
+        return;
+    }
+    
+    
+    public function jxbcUpdateStock()
+    {
+        $myConfig = oxRegistry::get("oxConfig");
+        
+        $aOxids = $this->getConfig()->getRequestParameter( 'jxbc_oxid' );
+        $aAmount = $this->getConfig()->getRequestParameter( 'jxbc_amount' );
+        $aProducts = $this->getAllArticles( $aOxids );
+        $aProducts = $this->addAmount( $aAmount, $aProducts );
+        /*echo '<hr><pre>';
+        print_r($aProducts);
+        echo '</pre><hr>'; /* */
+        
+        $oDb = oxDb::getDb();
+        $bConfig_UseShopStock = $myConfig->getConfigParam("bJxBarcodeUseShopStock");
+        if ($bConfig_UseShopStock) {
+            foreach ($aProducts as $Product) {
+                $sSql = "UPDATE oxarticles SET oxstock={$Product['oxamount']} WHERE oxid='{$Product['oxid']}' ";
+                //echo $sSql.'<br>';
+                $ret = $oDb->Execute($sSql);
+            }
+        }
+
+        $bConfig_UseInventoryStock = $myConfig->getConfigParam("bJxBarcodeUseInventoryStock");
+        if ($bConfig_UseInventoryStock) {
+            foreach ($aProducts as $Product) {
+                $sSql = "INSERT INTO jxinvarticles (jxartid, jxinvstock) VALUES ('{$Product['oxid']}', {$Product['oxamount']}) "
+                      . "ON DUPLICATE KEY UPDATE jxinvstock={$Product['oxamount']} ";
+                //echo $sSql.'<br>';
                 $ret = $oDb->Execute($sSql);
             }
         }

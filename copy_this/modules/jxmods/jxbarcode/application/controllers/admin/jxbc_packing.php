@@ -66,10 +66,10 @@ class jxbc_packing extends jxbc_scan
                     $this->_aViewData["message"] = "wrong-article";
                 }
             }
-            if ( $this->checkPackingDone($aPackingList) == 1 ) {
+            if ( $this->checkPackingDone($aPieces, $aPackingList) == 1 ) {
                 $this->_aViewData["message"] = "packing-done";
             }
-            if ( $this->checkPackingDone($aPackingList) == 2 ) {
+            if ( $this->checkPackingDone($aPieces, $aPackingList) == 2 ) {
                 $this->_aViewData["message"] = "to-many-items";
             }
         }
@@ -90,13 +90,16 @@ class jxbc_packing extends jxbc_scan
     }
     
     
+    /*
+     * 
+     */
     public function getPackingList( $sInvoiceNo ) 
     {
         $myConfig = oxRegistry::get( "oxConfig" );
         $eanField = $myConfig->getConfigParam( "sJxBarcodeEanField" );
 
         $sSql = "SELECT oa.oxid, oa.oxartnum, oa.oxtitle, oa.oxselvariant, 0 AS jxchecked, a.{$eanField} AS oxgtin,"
-                    . "oa.oxbprice, oa.oxprice, a.oxstock, oa.oxamount AS oxamount, "
+                    . "oa.oxbprice, oa.oxprice, a.oxstock, (oa.oxamount-oa.jxsendamount) AS oxamount, oa.jxsendamount, "
                     . "IF(a.oxparentid != '' && a.oxicon = '' ,(SELECT c.oxicon FROM oxarticles c WHERE c.oxid=a.oxparentid),a.oxicon) AS oxicon, "
                     . "IF(a.oxparentid != '' && a.oxpic1 = '' ,(SELECT c.oxpic1 FROM oxarticles c WHERE c.oxid=a.oxparentid),a.oxpic1) AS oxpic1 "
                 . "FROM oxorderarticles oa, oxorder o, oxarticles a "
@@ -135,12 +138,12 @@ class jxbc_packing extends jxbc_scan
     }
     
     
-    public function checkPackingDone( $aPackingList )
+    public function checkPackingDone( $aPieces, $aPackingList )
     {
         $done = TRUE;
         $over = FALSE;
         foreach ($aPackingList as $key => $aProduct) {
-            if ( $aProduct['pieces'] < $aProduct['oxamount'] ){
+            if ( intval($aProduct['pieces']) < $aProduct['oxamount'] ){
                 $done = FALSE;
             }
             elseif ( $aProduct['pieces'] > $aProduct['oxamount'] ){
@@ -189,6 +192,32 @@ class jxbc_packing extends jxbc_scan
     }
     
     
+    public function jxbcSavePartDelivery()
+    {
+        $myConfig = oxRegistry::get("oxConfig");
+        
+        $sInvoiceNo = $this->getConfig()->getRequestParameter( 'jxInvoiceNo' );
+        $aPackingList = $this->getPackingList($sInvoiceNo);
+        $aPieces = $this->getConfig()->getRequestParameter( 'jxbc_pieces' );
+        $aPackingList = $this->addPieces( $aPieces, $aPackingList );
+        
+        $sDate = date("Y-m-d");
+        $oUser = $this->getUser(); 
+        $sUserId = $oUser->getId(); 
+        
+        $oDb = oxDb::getDb();
+        foreach ($aPackingList as $key => $aProduct) {
+            if ($aProduct['pieces'] > 0) {
+                $sSql = "UPDATE oxorderarticles SET jxsenddate='{$sDate}', jxsendamount=(jxsendamount+{$aProduct['pieces']}) WHERE oxid = '{$aProduct['oxid']}' ";
+                //echo $sSql.'<br>';
+                $ret = $oDb->Execute($sSql);
+            }
+        }
+        
+        return;
+    }
+    
+    
     public function jxbcSavePackingList()
     {
         $myConfig = oxRegistry::get("oxConfig");
@@ -198,10 +227,15 @@ class jxbc_packing extends jxbc_scan
         $oUser = $this->getUser(); 
         $sUserId = $oUser->getId(); 
         
+        $oDb = oxDb::getDb();
+        
         $sSql = "UPDATE oxorder SET jxpackingcheck='{$sDate}', jxpackinguserid='{$sUserId}' WHERE oxbillnr='{$sInvoiceNo}' ";
         //echo $sSql.'<br>';
-        $oDb = oxDb::getDb();
         $ret = $oDb->Execute($sSql);
+        
+        $sSql = "UPDATE oxorderarticles SET jxsenddate='{$sDate}', jxsendamount=oxamount WHERE oxid = (SELECT oxorderid FROM oxorder WHERE oxbillnr='{$sInvoiceNo}') ";
+        echo $sSql.'<br>';
+        //$ret = $oDb->Execute($sSql);
         
         return;
     }

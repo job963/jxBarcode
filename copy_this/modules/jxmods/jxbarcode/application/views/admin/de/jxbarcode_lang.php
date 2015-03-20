@@ -16,7 +16,12 @@ $aLang = array(
     'JXBC_SCANDELIVERYNOTE'     => 'Lieferschein scannen',
     'JXBC_DELIVERYNOTENO'       => 'Lieferschein Nr.',
     'JXBC_SCANARTICLE'          => 'Artikel scannen',
-    'JXBC_PACKINGCHECKED'       => 'Packliste gepr&uuml;ft',
+    'JXBC_PARTDELIVERY'         => 'Teillieferung - Packen abschlie&szlig;en',
+    'JXBC_PACKINGCHECKED'       => 'Fertig - Packliste gepr&uuml;ft',
+    'JXBC_GTIN'                 => 'EAN',
+    'JXBC_ADDTOSTOCK'           => 'Zum Lagerbestand hinzuf&uuml;gen',
+    'JXBC_UPDATESTOCK'          => 'Lagerbestand &uuml;berschreiben',
+    'JXBC_INVOICENO'            => 'Rechnung Nr.',
     
     'JXBC_MSG_EANNOTFOUND'      => 'EAN Code nicht gefunden.',
     'JXBC_MSG_WRONGARTICLE'     => 'Falscher Artikel (dieser Artikel wurde nicht bestellt).',

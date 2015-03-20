@@ -35,22 +35,22 @@ class jxBarcode_Events
         $aSql[] = array(
                     "table"     => "oxorder",
                     "field"     => "JXPACKINGCHECK",
-                    "statement" => "ALTER TABLE `oxorder` ADD COLUMN `JXPACKINGCHECK` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'  "
+                    "statement" => "ALTER TABLE `oxorder` ADD COLUMN `JXPACKINGCHECK` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' "
                 ); 
         $aSql[] = array(
                     "table"     => "oxorder",
                     "field"     => "JXPACKINGUSERID",
-                    "statement" => "ALTER TABLE `oxorder` ADD COLUMN `JXPACKINGUSERID` CHAR(32) NOT NULL  "
+                    "statement" => "ALTER TABLE `oxorder` ADD COLUMN `JXPACKINGUSERID` CHAR(32) NOT NULL "
                 ); 
         $aSql[] = array(
                     "table"     => "oxorderarticles",
-                    "field"     => "JXSEND",
-                    "statement" => "ALTER TABLE `oxorderarticles` ADD COLUMN `JXSEND` TINYINT(4) NOT NULL DEFAULT '0'  "
+                    "field"     => "JXSENDAMOUNT",
+                    "statement" => "ALTER TABLE `oxorderarticles` ADD COLUMN `JXSENDAMOUNT` DOUBLE NOT NULL DEFAULT '0' "
                 ); 
         $aSql[] = array(
                     "table"     => "oxorderarticles",
                     "field"     => "JXSENDDATE",
-                    "statement" => "ALTER TABLE `oxorderarticles` ADD COLUMN `JXSENDDATE` DATE NULL DEFAULT '0000-00-00'  "
+                    "statement" => "ALTER TABLE `oxorderarticles` ADD COLUMN `JXSENDDATE` DATE NOT NULL DEFAULT '0000-00-00' "
                 ); 
         
         try {

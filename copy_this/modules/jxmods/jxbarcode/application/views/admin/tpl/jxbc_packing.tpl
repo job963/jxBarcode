@@ -167,9 +167,9 @@
                     [{ $shop->hiddensid }]
                     <input type="hidden" name="editlanguage" value="[{ $editlanguage }]">
                     <input type="hidden" name="cl" value="jxbc_packing">
-                    <input type="hidden" name="fnc" value="jxbcSavePackingList">
+                    <input type="hidden" name="fnc" value="jxbcSaveFullDelivery">
                     <input type="hidden" name="jxInvoiceNo" value="[{ $sInvoiceNo }]">
-                    <button type="submit" class="btn btn-success btn-lg" onclick="document.forms['jxbc'].elements['fnc'].value='jxbcSavePackingList';" 
+                    <button type="submit" class="btn btn-success btn-lg" onclick="document.forms['jxbc'].elements['fnc'].value='jxbcSaveFullDelivery';" 
                         [{if $aProduct|@count > 1}]disabled="disabled"[{/if}]>
                         [{*<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>*}]
                         [{ oxmultilang ident="JXBC_PACKINGCHECKED" }]

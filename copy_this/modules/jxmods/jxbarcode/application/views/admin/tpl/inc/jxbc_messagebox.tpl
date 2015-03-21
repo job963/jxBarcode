@@ -55,6 +55,14 @@
                 <b>[{ oxmultilang ident="JXBC_MSG_PACKINGDONE" }]</b>
             </div>
         </div>
+    [{elseif $message == "part-delivery-saved"}]
+        <div class="msg">
+            <div class="alert alert-success">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+                <b>[{ oxmultilang ident="JXBC_MSG_PARTDELIVERYSAVED" }]</b>
+            </div>
+        </div>
     [{elseif $message == "check-saved"}]
         <div class="msg">
             <div class="alert alert-success">

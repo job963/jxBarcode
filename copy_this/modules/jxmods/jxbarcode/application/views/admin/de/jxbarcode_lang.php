@@ -28,6 +28,7 @@ $aLang = array(
     'JXBC_MSG_ALREADYCHECKED'   => 'Bestellung wurde bereits gepackt und gepr&uuml;ft.',
     'JXBC_MSG_TOMANYITEMS'      => 'Stückzahl zu hoch (zu viele gepackt).',
     'JXBC_MSG_PACKINGDONE'      => 'Packliste vollständig.',
+    'JXBC_MSG_PARTDELIVERYSAVED' => 'Teillieferung gespeichert.',
     'JXBC_MSG_CHECKSAVED'       => 'Pr&uuml;fung gespeichert.',
     'JXBC_MSG_RECEIPTSAVED'     => 'Wareneingang wurde gespeichert.',
     

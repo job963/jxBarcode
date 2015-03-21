@@ -34,15 +34,20 @@ class jxbc_packing extends jxbc_scan
         $sIconUrl = $myConfig->getPictureUrl(FALSE) . 'generated/product/' . 'icon/' . str_replace('*','_',$myConfig->getConfigParam( 'sIconsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
 
         $sInvoiceNo = $this->getConfig()->getRequestParameter( 'jxInvoiceNo' );
+        $sFnc = $this->getConfig()->getRequestParameter( 'fnc' );
+        //echo 'sFnc='.$sFnc;
         if ( !$sInvoiceNo ) {
             $aPackingList = array();
             $aOxid = array();
             $aPieces = array();
         }
-        elseif ( $this->isPackingChecked($sInvoiceNo) ) {
+        elseif ( ( $this->isPackingChecked($sInvoiceNo) ) or ($sFnc != "") ) {
             $sInvoiceNo = '';
-            if ( $this->getConfig()->getRequestParameter( 'fnc' ) == 'jxbcSavePackingList' ) {
+            if ( $this->getConfig()->getRequestParameter( 'fnc' ) == 'jxbcSaveFullDelivery' ) {
                 $this->_aViewData["message"] = "check-saved";
+            }
+            elseif ( $this->getConfig()->getRequestParameter( 'fnc' ) == 'jxbcSavePartDelivery' ) {
+                $this->_aViewData["message"] = "part-delivery-saved";
             }
             else {
                 $this->_aViewData["message"] = "already-checked";
@@ -213,12 +218,14 @@ class jxbc_packing extends jxbc_scan
                 $ret = $oDb->Execute($sSql);
             }
         }
+        $sSql = "UPDATE oxorder SET jxsend=1 WHERE oxbillnr='{$sInvoiceNo}' ";
+        $ret = $oDb->Execute($sSql);
         
         return;
     }
     
     
-    public function jxbcSavePackingList()
+    public function jxbcSaveFullDelivery()
     {
         $myConfig = oxRegistry::get("oxConfig");
         
@@ -233,9 +240,13 @@ class jxbc_packing extends jxbc_scan
         //echo $sSql.'<br>';
         $ret = $oDb->Execute($sSql);
         
-        $sSql = "UPDATE oxorderarticles SET jxsenddate='{$sDate}', jxsendamount=oxamount WHERE oxid = (SELECT oxorderid FROM oxorder WHERE oxbillnr='{$sInvoiceNo}') ";
-        echo $sSql.'<br>';
-        //$ret = $oDb->Execute($sSql);
+        $sDate = date("Y-m-d");
+        $sSql = "UPDATE oxorderarticles SET jxsenddate='{$sDate}', jxsendamount=oxamount WHERE oxorderid = (SELECT oxid FROM oxorder WHERE oxbillnr='{$sInvoiceNo}') ";
+        //echo $sSql.'<br>';
+        $ret = $oDb->Execute($sSql);
+        
+        $sSql = "UPDATE oxorder SET jxsend=2 WHERE oxbillnr='{$sInvoiceNo}' ";
+        $ret = $oDb->Execute($sSql);
         
         return;
     }

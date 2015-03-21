@@ -43,6 +43,11 @@ class jxBarcode_Events
                     "statement" => "ALTER TABLE `oxorder` ADD COLUMN `JXPACKINGUSERID` CHAR(32) NOT NULL "
                 ); 
         $aSql[] = array(
+                    "table"     => "oxorder",
+                    "field"     => "JXSEND",
+                    "statement" => "ALTER TABLE `oxorder` ADD COLUMN `JXSEND` TINYINT(4) NOT NULL DEFAULT '0' "
+                ); 
+        $aSql[] = array(
                     "table"     => "oxorderarticles",
                     "field"     => "JXSENDAMOUNT",
                     "statement" => "ALTER TABLE `oxorderarticles` ADD COLUMN `JXSENDAMOUNT` DOUBLE NOT NULL DEFAULT '0' "

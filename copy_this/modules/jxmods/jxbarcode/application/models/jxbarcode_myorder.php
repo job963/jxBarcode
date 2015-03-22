@@ -58,10 +58,12 @@ class jxbarcode_myorder extends jxbarcode_myorder_parent
                 'fontsize' => 8,
                 'stretchtext' => 4
         );
-
+        
         $sText = sprintf( "%06d", $this->oxorder__oxbillnr->value );
-        $oPdf->write1DBarcode($sText, 'C39', '', 74, '', 6, 0.4, $aStyle, 'N');
+        $oPdf->write1DBarcode($sText, 'C39', '', 88, '', 6, 0.4, $aStyle, 'N');
         $oPdf->Ln();
+        
+        return;
     }
     
     

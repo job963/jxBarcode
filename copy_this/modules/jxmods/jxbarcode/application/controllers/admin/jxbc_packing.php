@@ -35,7 +35,7 @@ class jxbc_packing extends jxbc_scan
 
         $sInvoiceNo = $this->getConfig()->getRequestParameter( 'jxInvoiceNo' );
         $sFnc = $this->getConfig()->getRequestParameter( 'fnc' );
-        //echo 'sFnc='.$sFnc;
+
         if ( !$sInvoiceNo ) {
             $aPackingList = array();
             $aOxid = array();

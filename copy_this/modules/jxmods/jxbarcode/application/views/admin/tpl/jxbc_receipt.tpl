@@ -30,7 +30,7 @@
 </script>
 
 <body onload="document.forms.jxbc.oxgtin.focus();" >
-<div class="center" style="height:100%;margin-left:10px;">
+<div class="center" style="height:100%;margin-left:10px;margin-right:10px;">
     <h3>[{ oxmultilang ident="JXBC_RECEIPT_TITLE" }]</h3>
     <div style="position:absolute;top:4px;right:8px;color:gray;font-size:0.9em;border:1px solid gray;border-radius:3px;">
         &nbsp;[{$sModuleId}]&nbsp;[{$sModuleVersion}]&nbsp;
@@ -46,7 +46,7 @@
             <input type="hidden" name="updatelist" value="1">
         </form>
     
-        <div style="position:relative; top:-10px;margin-right:10px;">
+        <div style="position:relative; top:-10px;">
             <br />
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -82,7 +82,6 @@
                 </div>
             </div>
                 
-            [{*<hr>*}]
             [{if $aProduct|@count > 1}]
                 <br />
                 <div class="artSelect">
@@ -91,7 +90,7 @@
                     <input type="hidden" name="jxbc_prevgtin" value="[{$sprevgtin}]" />
                     [{assign var="i" value=1}]
                     [{foreach name=founds item=Product from=$aProduct}]
-                        <input type="radio" name="jxbc_productchoice" value="[{$Product.oxid}]" [{*name="[{$Product.oxid}]"*}] id="[{$Product.oxid}]" />[{* <span style="display:inline-block; width:100px;">[{ $Product.oxartnum }]</span>[{$Product.oxtitle}]*}]
+                        <input type="radio" name="jxbc_productchoice" value="[{$Product.oxid}]" id="[{$Product.oxid}]" />[{* <span style="display:inline-block; width:100px;">[{ $Product.oxartnum }]</span>[{$Product.oxtitle}]*}]
                         <label for="[{$Product.oxid}]">
                             [{if $Product.oxactive == 1}]
                                 <img src="[{$oViewConf->getModuleUrl("jxbarcode","out/admin/img/ico_active.png")}]"/>
@@ -148,19 +147,10 @@
                     [{if $aProduct|@count > 1}]disabled="disabled"[{/if}]>
                     [{ oxmultilang ident="JXBC_UPDATESTOCK" }]
                 </button>
-                [{*<input type="submit" value=" In Lagerbestand &uuml;bernehmen " class="jxbcSubmit" 
-                    onclick="document.forms['jxbc'].elements['oxgtin'].value='';document.forms['jxbc'].elements['fnc'].value='jxbcSaveReceipt';" 
-                    [{if $aProduct|@count > 1}]disabled="disabled"[{/if}] />*}]
                 </p>
             [{/if}]
             </form>
         </div>
-        [{*<form name="jxbcSave" id="jxbcSave" action="[{ $shop->selflink }]" method="post">
-            [{ $shop->hiddensid }]
-            <input type="hidden" name="editlanguage" value="[{ $editlanguage }]">
-            <input type="hidden" name="cl" value="jxbc_receipt">
-            <input type="hidden" name="fnc" value="jxbcSaveReceipt">
-        </form>*}]
     
     </p>
     <div style="position:absolute; bottom:0px; left:0px; height:50px; background-color:#dd0000;"></div>

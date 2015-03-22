@@ -29,9 +29,6 @@ class jxbc_scan extends oxAdminView
     public function render()
     {
         parent::render();
-        /*$oSmarty = oxUtilsView::getInstance()->getSmarty();
-        $oSmarty->assign( "oViewConf", $this->_aViewData["oViewConf"]);
-        $oSmarty->assign( "shop", $this->_aViewData["shop"]);*/
         
         $myConfig = oxRegistry::get("oxConfig");
         $sPicUrl = $myConfig->getPictureUrl(FALSE) . 'master/product/1';
@@ -40,25 +37,8 @@ class jxbc_scan extends oxAdminView
         $sGtin = $this->getConfig()->getRequestParameter( 'oxgtin' );
         
         if (!empty($sGtin)) {
-            /*$sSql = "SELECT a.oxartnum, IF(a.oxparentid != '',(SELECT b.oxtitle FROM oxarticles b WHERE b.oxid=a.oxparentid),oxtitle) AS oxtitle, "
-                  . "a.oxean AS oxgtin, a.oxbprice, a.oxprice, IF(a.oxparentid != '' && a.oxpic1 = '' ,(SELECT c.oxpic1 FROM oxarticles c WHERE c.oxid=a.oxparentid),a.oxpic1) AS oxpic1 "
-                  . "FROM oxarticles a WHERE a.oxean = '{$sGtin}' ";
-            
-            //echo '<pre>'.$sSql.'</pre>';
-            $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
-            $rs = $oDb->Execute($sSql);
-
-            $aProducts = array();
-            while (!$rs->EOF) {
-                array_push($aProducts, $rs->fields);
-                $rs->MoveNext();
-            } /* */
-
             $aProducts = array();
             $aProducts = $this->getArticleByGtin($sGtin); /* */
-            /* echo '<pre>';
-            print_r($aProducts);
-            echo '</pre>'; /* */
         }
         if ( (count($aProducts) == 0) && ($sGtin != "") ) {
             $this->_aViewData["message"] = "ean-not-found";
@@ -102,11 +82,6 @@ class jxbc_scan extends oxAdminView
             $rs->MoveNext();
         }
 
-        //$aProduct = array();
-        //$aProduct = $aProducts[0];
-        //echo count($aProducts).'-';
-        
-        //return $aProducts[0];
         return $aProducts;
     }
 
@@ -133,10 +108,6 @@ class jxbc_scan extends oxAdminView
             $rs->MoveNext();
         }
 
-        //$aProduct = array();
-        //$aProduct = $aProducts[0];
-        //echo count($aProducts).'-';
-        
         return $aProducts[0];
     }
 }

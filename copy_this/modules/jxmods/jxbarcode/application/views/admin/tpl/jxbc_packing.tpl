@@ -18,26 +18,6 @@
 [{assign var="cssFileUrl" value="$cssFileUrl?$cssTime" }]
 <link href="[{$cssFileUrl}]" type="text/css" rel="stylesheet">
 
-[{*<style>
-    td.jxbcTitle {
-        font-size: 1.5em;
-        font-weight: normal;
-        color: dimgray;
-    }
-    td.jxbcValue {
-        font-size: 1.5em;
-        font-weight: bold;
-        padding-left: 20px;
-    }
-    img.jxbcImage {
-        width: 200px; 
-        height: auto;
-        margin-right: 20px;
-        border: 1px solid lightgray;
-        box-shadow: 4px 4px 4px #aaa;
-    }
-</style>*}]
-
 <script type="text/javascript">
   if(top)
   {
@@ -49,7 +29,7 @@
 </script>
 
 <body onload="document.forms.jxbc.[{if $sInvoiceNo == ""}]jxInvoiceNo[{else}]jxGtin[{/if}].focus();">
-<div class="center" style="height:100%;margin-left:10px;">
+<div class="center" style="height:100%;margin-left:10px;margin-right:10px;">
     <h3>[{ oxmultilang ident="JXBC_PACKING_TITLE" }]</h3>
     <div style="position:absolute;top:4px;right:8px;color:gray;font-size:0.9em;border:1px solid gray;border-radius:3px;">
         &nbsp;[{$sModuleId}]&nbsp;[{$sModuleVersion}]&nbsp;
@@ -65,69 +45,61 @@
             <input type="hidden" name="updatelist" value="1">
         </form>
         
-        <div style="position:relative; [{*}]top:-10px;*}]">
-            [{*<br />*}]
+        <div style="position:relative;">
             <form name="jxbc" id="jxbc" action="[{ $shop->selflink }]" method="post">
                 [{if $sInvoiceNo == ""}]
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <strong> [{ oxmultilang ident="JXBC_SCANDELIVERYNOTE" }]</strong>
-                    </div>
-                    <div class="panel-body">
-                    [{*<form name="jxbc" id="jxbc" action="[{ $shop->selflink }]" method="post">*}]
-                        [{ $shop->hiddensid }]
-                        <input type="hidden" name="editlanguage" value="[{ $editlanguage }]">
-                        <input type="hidden" name="cl" value="jxbc_packing">
-                        <input type="hidden" name="fnc" value="">
-                        <input type="hidden" name="oxid" value="[{ $oxid }]">
-                        
-                        <div class="input-group" style="width:400px;">
-                            <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-barcode "></span> [{ oxmultilang ident="JXBC_INVOICENO" }]
-                            </span>
-                            <input type="text" class="form-control" name="jxInvoiceNo" value="[{ $sInvoiceNo }]" autocomplete="off" />
-                            <span class="input-group-btn">
-                                <button type="submit" class="btn btn-primary" [{*onclick="document.forms.jxbc.submit();"*}] [{ $readonly }]>
-                                    <strong>[{ oxmultilang ident="JXBC_SEARCH" }]</strong>
-                                </button>
-                            </span>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <strong> [{ oxmultilang ident="JXBC_SCANDELIVERYNOTE" }]</strong>
                         </div>
-                        [{*<input class="edittext" type="submit" 
-                                 onkeyup="document.forms.jxbc.submit();" 
-                                 value=" [{ oxmultilang ident="JXBC_SEARCH" }] " [{ $readonly }]><br /> <br/>*}]
-                    </form>
+                        <div class="panel-body">
+                            [{ $shop->hiddensid }]
+                            <input type="hidden" name="editlanguage" value="[{ $editlanguage }]">
+                            <input type="hidden" name="cl" value="jxbc_packing">
+                            <input type="hidden" name="fnc" value="">
+                            <input type="hidden" name="oxid" value="[{ $oxid }]">
+
+                            <div class="input-group" style="width:400px;">
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-barcode "></span> [{ oxmultilang ident="JXBC_INVOICENO" }]
+                                </span>
+                                <input type="text" class="form-control" name="jxInvoiceNo" value="[{ $sInvoiceNo }]" autocomplete="off" />
+                                <span class="input-group-btn">
+                                    <button type="submit" class="btn btn-primary" [{*onclick="document.forms.jxbc.submit();"*}] [{ $readonly }]>
+                                        <strong>[{ oxmultilang ident="JXBC_SEARCH" }]</strong>
+                                    </button>
+                                </span>
+                            </div>
+                        </form>
+                        </div>
                     </div>
-                </div>
                 [{elseif $message != "packing-done" }]
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <strong>[{*<span class="glyphicon glyphicon-barcode" aria-hidden="true"></span>*}] [{ oxmultilang ident="JXBC_DELIVERYNOTENO" }] [{ $sInvoiceNo }] - [{ oxmultilang ident="JXBC_SCANARTICLE" }]</strong>
-                    </div>
-                    <div class="panel-body">
-                    [{*<form name="jxbc" id="jxbc" action="[{ $shop->selflink }]" method="post">*}]
-                        [{ $shop->hiddensid }]
-                        <input type="hidden" name="editlanguage" value="[{ $editlanguage }]">
-                        <input type="hidden" name="cl" value="jxbc_packing">
-                        <input type="hidden" name="fnc" value="">
-                        <input type="hidden" name="oxid" value="[{ $oxid }]">
-                        <input type="hidden" name="jxInvoiceNo" value="[{ $sInvoiceNo }]">
-                        
-                        <div class="input-group" style="width:400px;">
-                            <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-barcode "></span> [{ oxmultilang ident="JXBC_GTIN" }]
-                            </span>
-                            <input type="text" class="form-control" name="jxGtin" value="[{ $aproduct.oxgtin }]" autocomplete="off" />
-                            <span class="input-group-btn">
-                                <button type="submit" class="btn btn-primary" [{*onclick="document.forms.jxbc.submit();"*}] [{ $readonly }]>
-                                    <strong>[{ oxmultilang ident="JXBC_SEARCH" }]</strong>
-                                </button>
-                            </span>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <strong> [{ oxmultilang ident="JXBC_DELIVERYNOTENO" }] [{ $sInvoiceNo }] - [{ oxmultilang ident="JXBC_SCANARTICLE" }]</strong>
                         </div>
-                        [{*<input class="edittext" type="submit" 
-                                 onkeyup="document.forms.jxbc.submit();" 
-                                 value=" [{ oxmultilang ident="JXBC_SEARCH" }] " [{ $readonly }]><br /> <br/>*}]
+                        <div class="panel-body">
+                        [{*<form name="jxbc" id="jxbc" action="[{ $shop->selflink }]" method="post">*}]
+                            [{ $shop->hiddensid }]
+                            <input type="hidden" name="editlanguage" value="[{ $editlanguage }]">
+                            <input type="hidden" name="cl" value="jxbc_packing">
+                            <input type="hidden" name="fnc" value="">
+                            <input type="hidden" name="oxid" value="[{ $oxid }]">
+                            <input type="hidden" name="jxInvoiceNo" value="[{ $sInvoiceNo }]">
+
+                            <div class="input-group" style="width:400px;">
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-barcode "></span> [{ oxmultilang ident="JXBC_GTIN" }]
+                                </span>
+                                <input type="text" class="form-control" name="jxGtin" value="[{ $aproduct.oxgtin }]" autocomplete="off" />
+                                <span class="input-group-btn">
+                                    <button type="submit" class="btn btn-primary" [{*onclick="document.forms.jxbc.submit();"*}] [{ $readonly }]>
+                                        <strong>[{ oxmultilang ident="JXBC_SEARCH" }]</strong>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
                     </div>
-                </div>
                 [{/if}]
 
             <table width="95%" border="0">
@@ -178,7 +150,6 @@
                     <button type="button" class="btn btn-warning btn-lg" 
                             onclick="document.forms['jxbc'].elements['fnc'].value='jxbcSavePartDelivery';document.forms.jxbc.submit();" 
                         [{if $aProduct|@count > 1}]disabled="disabled"[{/if}]>
-                        [{*<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>*}]
                         [{ oxmultilang ident="JXBC_PARTDELIVERY" }]
                     </button>
                 [{/if}]

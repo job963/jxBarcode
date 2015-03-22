@@ -30,7 +30,7 @@
 </script>
 
 <body onload="document.forms.jxbcscan.oxgtin.focus();">
-<div class="center" style="height:100%;margin-left:10px;">
+<div class="center" style="height:100%;margin-left:10px;margin-right:10px;">
     <h3>[{ oxmultilang ident="JXBC_SCAN_TITLE" }]</h3>
     <div style="position:absolute;top:4px;right:8px;color:gray;font-size:0.9em;border:1px solid gray;border-radius:3px;">
         &nbsp;[{$sModuleId}]&nbsp;[{$sModuleVersion}]&nbsp;
@@ -46,11 +46,11 @@
             <input type="hidden" name="updatelist" value="1">
         </form>
         
-        <div style="position:relative;top:-10px;margin-right:20px;">
+        <div style="position:relative;top:-10px;">
             <br />
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <strong>[{*<span class="glyphicon glyphicon-barcode" aria-hidden="true"></span> *}][{ oxmultilang ident="JXBC_SCANARTICLE" }]</strong>
+                    <strong>[{ oxmultilang ident="JXBC_SCANARTICLE" }]</strong>
                 </div>
                 <div class="panel-body">
                     <form name="jxbcscan" id="jxbcscan" action="[{ $shop->selflink }]" method="post">
@@ -71,9 +71,6 @@
                             </button>
                             </span>
                         </div>
-                        [{*<input class="edittext" type="submit" 
-                                 onkeyup="document.forms.jxbcscan.submit();" 
-                                 value=" [{ oxmultilang ident="JXBC_SEARCH" }] " [{ $readonly }]><br /> <br/>*}]
                     </form>
                 </div>
             </div>
@@ -86,27 +83,27 @@
                                 <img src="[{ $picurl}]/[{ $aproduct.oxpic1 }]" class="jxbcscanImage" />
                             [{/if}]
                         </td>
-                        <td class="jxbcscanTitle">Art-Nr</td>
+                        <td class="jxbcscanTitle">[{ oxmultilang ident="GENERAL_ARTNUM" }]</td>
                         <td class="jxbcscanValue">[{ $aproduct.oxartnum }]</td>
                     </tr>
                     <tr>
-                        <td class="jxbcscanTitle">Title</td>
+                        <td class="jxbcscanTitle">[{ oxmultilang ident="GENERAL_ARTICLE_OXTITLE" }]</td>
                         <td class="jxbcscanValue">[{ $aproduct.oxtitle }]</td>
                     </tr>
                     <tr>
-                        <td class="jxbcscanTitle">GTIN</td>
+                        <td class="jxbcscanTitle">[{ oxmultilang ident="GENERAL_ARTICLE_OXEAN" }]</td>
                         <td class="jxbcscanValue">[{ $aproduct.oxgtin }]</td>
                     </tr>
                     <tr>
-                        <td class="jxbcscanTitle">EK</td>
+                        <td class="jxbcscanTitle">[{ oxmultilang ident="ARTICLE_EXTEND_BPRICE" }]</td>
                         <td class="jxbcscanValue">[{ $aproduct.oxbprice }]</td>
                     </tr>
                     <tr>
-                        <td class="jxbcscanTitle">VK</td>
+                        <td class="jxbcscanTitle">[{ oxmultilang ident="GENERAL_ARTICLE_OXPRICE" }]</td>
                         <td class="jxbcscanValue">[{ $aproduct.oxprice }]</td>
                     </tr>
                     <tr>
-                        <td class="jxbcscanTitle">Stock</td>
+                        <td class="jxbcscanTitle">[{ oxmultilang ident="GENERAL_ARTICLE_OXSTOCK" }]</td>
                         <td class="jxbcscanValue">[{ $aproduct.oxstock }]</td>
                     </tr>
                 </table>

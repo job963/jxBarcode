@@ -36,19 +36,10 @@ class jxbc_receipt extends jxbc_scan
         $sIconUrl = $myConfig->getPictureUrl(FALSE) . 'generated/product/' . 'icon/' . str_replace('*','_',$myConfig->getConfigParam( 'sIconsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
 
         $sGtin = $this->getConfig()->getRequestParameter( 'oxgtin' );
-        //$aProducts = array();
-        /*$iRows = oxConfig::getParameter( 'jxbc_ean_rows' );
-        for ($i=0; $i<$iRows; $i++) {
-            $sEAN = oxConfig::getParameter( "jxbc_ean_$i" );
-            echo $sEAN . ' ';
-            array_push( $aProducts, $sEAN );
-        }
-        /**/
         $aOxids = $this->getConfig()->getRequestParameter( 'jxbc_oxid' );
         $aAmount = $this->getConfig()->getRequestParameter( 'jxbc_amount' );
         $sSelOxid = $this->getConfig()->getRequestParameter( 'jxbc_productchoice' );
-                //echo 'sGtin='.$sGtin.'<br>';
-                //echo 'selOxid='.$sSelOxid.'<br>';
+        
         if (isset($aOxids)) {
             $aProducts = $this->getAllArticles( $aOxids );
             $aProducts = $this->addAmount( $aAmount, $aProducts  );
@@ -56,10 +47,6 @@ class jxbc_receipt extends jxbc_scan
         }
         else
             $aProducts = array();
-            
-        /*  echo '<hr><pre>';
-        print_r($aGtins);
-        echo '</pre><hr>'; /* */
         
         // ------ new/next product was scanned
         if (!empty($sGtin)) {
@@ -71,48 +58,26 @@ class jxbc_receipt extends jxbc_scan
                     // only one product found by ean
                     $aOneProduct = array();
                     $aOneProduct = $aProduct[0];
-                    /*echo count($aProduct). '<pre>';
-                    print_r($aProducts);
-                    echo '</pre>'; /* */
-                    //echo 'yet='.$this->yetScanned($aOneProduct['oxid'],$aProducts);
                     if ( $this->yetScanned($aOneProduct['oxid'],$aProducts) )
                         $aProducts = $this->increaseAmount( $aOneProduct['oxid'], $aProducts );
                     else
                         array_push( $aProducts, $aOneProduct );
                 } else {
                     // multiple entries found
-                    /*$aMultiFound = array();
-                    $aMultiFound = $aProduct;*/
-                    //$sPrevGtin = $sGtin;
                     $sGtin = '';
                 }
             }
-            //array_push( $aGtins, $aProduct['oxgtin']);
-            //array_push( $aProducts, $this->getArticle($sGtin) );
-            
-            /*echo count($aOneProduct). '<pre>';
-            print_r($aProducts);
-            echo '</pre>'; /* */
         }
         
         //--------- multiple products found, on selected by oxid through user
         if (!empty($sSelOxid)) {
-            $sGtin = ''; //oxConfig::getParameter( 'jxbc_prevgtin' );
-            //echo 'yet='.$this->yetScanned($sSelOxid,$aProducts).'<br>';
+            $sGtin = '';
             if ( $this->yetScanned($sSelOxid,$aProducts) ) {
                 $aProducts = $this->increaseAmount( $sSelOxid, $aProducts );
-                /*echo 'sSelOxid='.$sSelOxid;
-                echo '<pre>';
-                print_r($aProducts);
-                echo '</pre>';*/
             }
             else {
-                //echo 'selOxid='.$sSelOxid.'<br>';
                 $aOneProduct = array();
                 $aOneProduct = $this->getArticleById($sSelOxid);
-                /* echo count($aOneProduct). '<pre>';
-                print_r($aProducts);
-                echo '</pre>'; /* */
                 array_push( $aProducts, $aOneProduct );
             }
             $sLastOxid = $sSelOxid;
@@ -158,9 +123,6 @@ class jxbc_receipt extends jxbc_scan
         $aAmount = $this->getConfig()->getRequestParameter( 'jxbc_amount' );
         $aProducts = $this->getAllArticles( $aOxids );
         $aProducts = $this->addAmount( $aAmount, $aProducts );
-        /*echo '<hr><pre>';
-        print_r($aProducts);
-        echo '</pre><hr>'; /* */
         
         $oDb = oxDb::getDb();
         $bConfig_UseShopStock = $myConfig->getConfigParam("bJxBarcodeUseShopStock");
@@ -194,9 +156,6 @@ class jxbc_receipt extends jxbc_scan
         $aAmount = $this->getConfig()->getRequestParameter( 'jxbc_amount' );
         $aProducts = $this->getAllArticles( $aOxids );
         $aProducts = $this->addAmount( $aAmount, $aProducts );
-        /*echo '<hr><pre>';
-        print_r($aProducts);
-        echo '</pre><hr>'; /* */
         
         $oDb = oxDb::getDb();
         $bConfig_UseShopStock = $myConfig->getConfigParam("bJxBarcodeUseShopStock");
@@ -221,19 +180,6 @@ class jxbc_receipt extends jxbc_scan
         return;
     }
     
-    /*
-    public function jxbcChooseProduct()
-    {
-        $myConfig = oxRegistry::get("oxConfig");
-        
-        $aGtins = oxConfig::getParameter( 'jxbc_gtin' );
-        $aAmount = oxConfig::getParameter( 'jxbc_amount' );
-        $aProducts = $this->getAllArticles( $aGtins );
-        $aProducts = $this->addAmount( $aAmount, $aProducts );
-        
-        return;
-    }
-    */
     
     public function getAllArticles( $aOxids )
     {

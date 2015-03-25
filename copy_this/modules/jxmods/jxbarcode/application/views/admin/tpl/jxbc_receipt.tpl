@@ -222,7 +222,7 @@
                                     <td class="jxbcTitle" style="color:[{$tcolor}];">[{ $Product.oxartnum }]</td>
                                     <td class="jxbcTitle" style="color:[{$tcolor}];">[{ $Product.oxtitle }][{if $Product.oxvarselect}], [{$Product.oxvarselect}][{/if}]</td>
                                     <td class="jxbcTitle" style="color:[{$tcolor}];">[{ $Product.oxgtin }]</td>
-                                    <td class="jxbcTitle" style="color:[{$tcolor}];">[{if $Product.jxinvstock}][{ $Product.jxinvstock }][{else}][{ $Product.oxstock }][{/if}]</td>
+                                    <td class="jxbcTitle" style="color:[{$tcolor}];">[{if isset($Product.jxinvstock)}][{ $Product.jxinvstock }][{else}][{ $Product.oxstock }][{/if}]</td>
                                     <td class="jxbcTitle" align="right" style="color:[{$tcolor}]};">[{ $Product.oxprice|string_format:"%.2f"  }]</td>
                                 </tr>
                             [{/foreach}]

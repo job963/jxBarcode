@@ -106,7 +106,7 @@ if(top)
                         <td class="jxbcscanTitle">[{ oxmultilang ident="GENERAL_ARTICLE_OXSTOCK" }]</td>
                         <td class="jxbcscanValue">[{ $aproduct.oxstock }]</td>
                     </tr>
-                    [{if $aproduct.jxinvstock}]
+                    [{if isset($aproduct.jxinvstock) }]
                         <tr>
                             <td class="jxbcscanTitle">[{ oxmultilang ident="GENERAL_ARTICLE_OXSTOCK" }]</td>
                             <td class="jxbcscanValue">[{ $aproduct.jxinvstock }]</td>

@@ -59,9 +59,21 @@ class jxbc_scan extends oxAdminView
     
     public function getArticleByGtin($sGtin)
     {
-        if (strlen($sGtin) == 12) //UPC-Code
+        if (strlen($sGtin) == 12) {   //UPC-Code
             $sGtin = '0' . $sGtin;
+        }
         
+        $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
+        if ( $oDb->getOne( "SHOW TABLES LIKE 'jxinvarticles' ", false, false ) ) {
+            $sInvFields = ", jxinvstock";
+            $sInvFrom = ", jxinvarticles i";
+            $sInvWhere = "AND a.oxid = i.jxartid";
+        }
+        else {
+            $sInvFields = "";
+            $sInvFrom = "";
+            $sInvWhere = "";
+        }
         $myConfig = oxRegistry::get( "oxConfig" );
         $eanField = $myConfig->getConfigParam( "sJxBarcodeEanField" );
         
@@ -69,11 +81,12 @@ class jxbc_scan extends oxAdminView
                     . "a.oxvarselect, a.{$eanField} AS oxgtin, a.oxbprice, a.oxprice, a.oxstock, 1 AS oxamount, "
                     . "IF(a.oxparentid != '' && a.oxicon = '' ,(SELECT c.oxicon FROM oxarticles c WHERE c.oxid=a.oxparentid),a.oxicon) AS oxicon, "
                     . "IF(a.oxparentid != '' && a.oxpic1 = '' ,(SELECT c.oxpic1 FROM oxarticles c WHERE c.oxid=a.oxparentid),a.oxpic1) AS oxpic1 "
-                . "FROM oxarticles a "
-                . "WHERE a.{$eanField} = '{$sGtin}' ";
+                    . " {$sInvFields} "
+                . "FROM oxarticles a {$sInvFrom} "
+                . "WHERE a.{$eanField} = '{$sGtin}' "
+                    . " {$sInvWhere} ";
 
         //echo '<pre>'.$sSql.'</pre>';
-        $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
         $rs = $oDb->Execute($sSql);
 
         $aProducts = array();
@@ -88,6 +101,17 @@ class jxbc_scan extends oxAdminView
     
     public function getArticleById($sOxid)
     {
+        $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
+        if ( $oDb->getOne( "SHOW TABLES LIKE 'jxinvarticles' ", false, false ) ) {
+            $sInvFields = ", jxinvstock";
+            $sInvFrom = ", jxinvarticles i";
+            $sInvWhere = "AND a.oxid = i.jxartid";
+        }
+        else {
+            $sInvFields = "";
+            $sInvFrom = "";
+            $sInvWhere = "";
+        }
         $myConfig = oxRegistry::get( "oxConfig" );
         $eanField = $myConfig->getConfigParam( "sJxBarcodeEanField" );
         
@@ -95,11 +119,12 @@ class jxbc_scan extends oxAdminView
                     . "a.oxvarselect, a.{$eanField} AS oxgtin, a.oxbprice, a.oxprice, 1 AS oxamount, "
                     . "IF(a.oxparentid != '' && a.oxicon = '' ,(SELECT c.oxicon FROM oxarticles c WHERE c.oxid=a.oxparentid),a.oxicon) AS oxicon, "
                     . "IF(a.oxparentid != '' && a.oxpic1 = '' ,(SELECT c.oxpic1 FROM oxarticles c WHERE c.oxid=a.oxparentid),a.oxpic1) AS oxpic1 "
-                . "FROM oxarticles a "
-                . "WHERE a.oxid = '{$sOxid}' ";
+                    . " {$sInvFields} "
+                . "FROM oxarticles a {$sInvFrom} "
+                . "WHERE a.oxid = '{$sOxid}' "
+                    . " {$sInvWhere} ";
 
         //echo '<pre>'.$sSql.'</pre>';
-        $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
         $rs = $oDb->Execute($sSql);
 
         $aProducts = array();

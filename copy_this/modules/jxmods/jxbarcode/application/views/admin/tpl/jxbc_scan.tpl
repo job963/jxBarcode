@@ -20,7 +20,7 @@
 
 
 <script type="text/javascript">
-  if(top)
+if(top)
   {
     top.sMenuItem    = "[{ oxmultilang ident="mxmanageprod" }]";
     top.sMenuSubItem = "[{ oxmultilang ident="jxbc_scan" }]";
@@ -78,7 +78,7 @@
             [{foreach item=aproduct from=$aproducts}]
                 <table>
                     <tr>
-                        <td rowspan="6">
+                        <td rowspan="7">
                             [{if $aproduct.oxpic1 }]
                                 <img src="[{ $picurl}]/[{ $aproduct.oxpic1 }]" class="jxbcscanImage" />
                             [{/if}]
@@ -96,16 +96,22 @@
                     </tr>
                     <tr>
                         <td class="jxbcscanTitle">[{ oxmultilang ident="ARTICLE_EXTEND_BPRICE" }]</td>
-                        <td class="jxbcscanValue">[{ $aproduct.oxbprice }]</td>
+                        <td class="jxbcscanValue">[{ $aproduct.oxbprice|string_format:"%.2f" }]</td>
                     </tr>
                     <tr>
                         <td class="jxbcscanTitle">[{ oxmultilang ident="GENERAL_ARTICLE_OXPRICE" }]</td>
-                        <td class="jxbcscanValue">[{ $aproduct.oxprice }]</td>
+                        <td class="jxbcscanValue">[{ $aproduct.oxprice|string_format:"%.2f" }]</td>
                     </tr>
                     <tr>
                         <td class="jxbcscanTitle">[{ oxmultilang ident="GENERAL_ARTICLE_OXSTOCK" }]</td>
                         <td class="jxbcscanValue">[{ $aproduct.oxstock }]</td>
                     </tr>
+                    [{if $aproduct.jxinvstock}]
+                        <tr>
+                            <td class="jxbcscanTitle">[{ oxmultilang ident="GENERAL_ARTICLE_OXSTOCK" }]</td>
+                            <td class="jxbcscanValue">[{ $aproduct.jxinvstock }]</td>
+                        </tr>
+                    [{/if}]
                 </table>
                 <div style="height:25px; "></div>
             [{/foreach}]

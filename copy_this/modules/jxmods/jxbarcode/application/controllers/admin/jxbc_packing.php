@@ -103,18 +103,31 @@ class jxbc_packing extends jxbc_scan
         $myConfig = oxRegistry::get( "oxConfig" );
         $eanField = $myConfig->getConfigParam( "sJxBarcodeEanField" );
 
-        $sSql = "SELECT oa.oxid, oa.oxartnum, oa.oxtitle, oa.oxselvariant, 0 AS jxchecked, a.{$eanField} AS oxgtin,"
+        $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
+        if ( $oDb->getOne( "SHOW TABLES LIKE 'jxinvarticles' ", false, false ) ) {
+            $sInvFields = ", jxinvstock AS oxstock";
+            $sInvFrom = ", jxinvarticles i";
+            $sInvWhere = "AND a.oxid = i.jxartid";
+        }
+        else {
+            $sInvFields = ", a.oxstock AS oxstock";
+            $sInvFrom = ", jxinvarticles i";
+            $sInvWhere = "AND a.oxid = i.jxartid";
+        }
+        
+        $sSql = "SELECT oa.oxid, oa.oxartnum, oa.oxtitle, oa.oxselvariant AS oxvarselect, 0 AS jxchecked, a.{$eanField} AS oxgtin,"
                     . "oa.oxbprice, oa.oxprice, a.oxstock, (oa.oxamount-oa.jxsendamount) AS oxamount, oa.jxsendamount, "
                     . "IF(a.oxparentid != '' && a.oxicon = '' ,(SELECT c.oxicon FROM oxarticles c WHERE c.oxid=a.oxparentid),a.oxicon) AS oxicon, "
                     . "IF(a.oxparentid != '' && a.oxpic1 = '' ,(SELECT c.oxpic1 FROM oxarticles c WHERE c.oxid=a.oxparentid),a.oxpic1) AS oxpic1 "
-                . "FROM oxorderarticles oa, oxorder o, oxarticles a "
+                    . " {$sInvFields} "
+                . "FROM oxorderarticles oa, oxorder o, oxarticles a {$sInvFrom} "
                 . "WHERE "
                     . "oa.oxorderid = o.oxid "
                     . "AND oa.oxartid = a.oxid "
-                    . "AND o.oxbillnr = {$sInvoiceNo} ";
+                    . "AND o.oxbillnr = {$sInvoiceNo} "
+                    . "{$sInvWhere} ";
                     
         // echo '<pre>'.$sSql.'</pre>';
-        $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
         try {
         $rs = $oDb->Execute($sSql);
         }
@@ -167,6 +180,9 @@ class jxbc_packing extends jxbc_scan
     
     public function isGtinInPackingList( $sGtin, $aPackingList )
     {
+        if (strlen($sGtin) == 12)  //UPC-Code
+            $sGtin = '0' . $sGtin;
+        
         foreach ($aPackingList as $key => $aProduct) {
             if ( $aProduct['oxgtin'] == $sGtin ) {
                 return TRUE;

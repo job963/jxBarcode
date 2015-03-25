@@ -66,7 +66,7 @@
                             </span>
                             <input type="text" class="form-control" name="oxgtin" value="[{ $aproduct.oxgtin }]" autocomplete="off" />
                             <span class="input-group-btn">
-                                <button type="button" class="btn btn-primary" onclick="
+                                <button type="submit" class="btn btn-primary" onclick="
                                              var sCode = document.forms['jxbc'].elements['oxgtin'].value;
                                              if (document.forms['jxbc'].elements['oxgtin'].value == '011223344550') {
                                                  document.forms['jxbc'].elements['oxgtin'].value='';
@@ -83,6 +83,7 @@
             </div>
                 
             [{if $aProduct|@count > 1}]
+                <!--
                 <br />
                 <div class="artSelect">
                 <fieldset class="artSelect">
@@ -111,40 +112,133 @@
                 </audio>
                 </div>
                 <br />
-            [{/if}]
-            <table width="95%" border="0">
-                [{foreach name=outer item=Product from=$aProducts}]
-                    [{if $lastoxid == $Product.oxid}]
-                        [{assign var="tcolor" value="#0000aa;font-weight:bold"}]
-                    [{else}]
-                        [{assign var="tcolor" value="#888888"}]
-                    [{/if}]
-                    <input type="hidden" name="jxbc_oxid[]" value="[{$Product.oxid}]">
-                    <tr>
-                        <td align="center">
-                            <img src="[{if $Product.oxicon==""}]
-                                    [{ $pic1url}]/[{ $Product.oxpic1 }]
+                -->
+                
+                
+    <!-- Modal Popup -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog [{*modal-lg*}]" style="max-height:90%; overflow-y:auto;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        <b>[{ oxmultilang ident="JXBC_MULTIPLEFOUND" }]</b>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="jxbc_prevgtin" value="[{$sprevgtin}]" />
+                    [{assign var="i" value=1}]
+                    [{assign var="lblStyle" value="font-size:1.4em; height:100%; padding-top:18px; vertical-align:middle;"}]
+                    <table width="95%" style="font-size:1.5em;">
+                        [{foreach name=founds item=Product from=$aProduct}]
+                        <tr>
+                            <td>    
+                                <input type="radio" name="jxbc_productchoice" value="[{$Product.oxid}]" id="[{$Product.oxid}]" />[{* <span style="display:inline-block; width:100px;">[{ $Product.oxartnum }]</span>[{$Product.oxtitle}]*}]
+                            </td>
+                            <td><label for="[{$Product.oxid}]">&nbsp;
+                                [{if $Product.oxactive == 1}]
+                                    <img src="[{$oViewConf->getModuleUrl("jxbarcode","out/admin/img/ico_active.png")}]" />
                                 [{else}]
-                                    [{ $iconurl}]/[{ $Product.oxicon }]
-                                [{/if}]" />
-                        </td>
-                        <td><input type="text" name="jxbc_amount[]" value="[{ $Product.oxamount }]" size="2" class="jxbcNumInput" /></td>
-                        <td class="jxbcTitle" style="color:[{$tcolor}];">[{ $Product.oxartnum }]</td>
-                        <td class="jxbcTitle" style="color:[{$tcolor}];">[{ $Product.oxtitle }][{if $Product.oxvarselect}], [{$Product.oxvarselect}][{/if}]</td>
-                        <td class="jxbcTitle" style="color:[{$tcolor}];">[{ $Product.oxgtin }]</td>
-                        <td class="jxbcTitle" align="right" style="color:[{$tcolor}]};">[{ $Product.oxprice|string_format:"%.2f"  }]</td>
-                    </tr>
-                [{/foreach}]
-            </table>
+                                    <img src="[{$oViewConf->getModuleUrl("jxbarcode","out/admin/img/ico_inactive.png")}]" />
+                                [{/if}]
+                                </label>
+                            </td>
+                            <td><label for="[{$Product.oxid}]">&nbsp;
+                                <img [{if $Product.oxicon==""}]
+                                        src="[{ $pic1url}]/[{ $Product.oxpic1 }]"
+                                    [{else}]
+                                        src="[{ $iconurl}]/[{ $Product.oxicon }]"
+                                    [{/if}] 
+                                    height="66" width="auto" />
+                                </label>
+                            </td>
+                            <td><label for="[{$Product.oxid}]" style="[{$lblStyle}]">
+                                <span style="" accesskey="[{$i}]">[{ $Product.oxartnum }]</span></label>
+                            </td>
+                            <td><label for="[{$Product.oxid}]" style="[{$lblStyle}]">
+                                [{$Product.oxtitle}]
+                                [{if $Product.oxvarselect}], [{$Product.oxvarselect}][{/if}]</label>
+                            </td>
+                            [{assign var="i" value=$i+1}]
+                        </tr>
+                        [{/foreach}]
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" [{*data-dismiss="modal"*}] onclick="document.forms.jxbc.submit();">
+                        [{ oxmultilang ident="JXBC_SELECT" }]
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+             
+    [{if $aProduct|@count > 1}]
+    <script>
+        $("#myModal").modal('show');
+        
+        var $modalDialog = $('.modal-dialog'),
+        modalHeight = $modalDialog.height(),
+        browserHeight = window.innerHeight;
+
+        $modalDialog.css({'margin-top' : modalHeight >= browserHeight ? 0 : (browserHeight - modalHeight)/2});
+    </script>
+    [{/if}]
+                
+                
+            [{/if}]
+            
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <table class="table table-hover" width="95%" border="0">
+                            <thead>
+                                <tr>
+                                    [{assign var="thStyle" value="color:gray;" }]
+                                    <th style="[{$thStyle}]">Vorschau</th>
+                                    <th style="[{$thStyle}]">Menge</th>
+                                    <th style="[{$thStyle}]">Art-Nr</th>
+                                    <th style="[{$thStyle}]">Bezeichnung</th>
+                                    <th style="[{$thStyle}]">EAN</th>
+                                    <th style="[{$thStyle}]">Lager</th>
+                                    <th style="[{$thStyle}];text-align:right;">Preis</th>
+                                </tr>
+                            </thead>
+                            [{foreach name=outer item=Product from=$aProducts}]
+                                [{if $lastoxid == $Product.oxid}]
+                                    [{assign var="tcolor" value="#0000aa;font-weight:bold"}]
+                                [{else}]
+                                    [{assign var="tcolor" value="#888888"}]
+                                [{/if}]
+                                <input type="hidden" name="jxbc_oxid[]" value="[{$Product.oxid}]">
+                                <tr>
+                                    <td align="center">
+                                        <img src="[{if $Product.oxicon==""}]
+                                                [{ $pic1url}]/[{ $Product.oxpic1 }]
+                                            [{else}]
+                                                [{ $iconurl}]/[{ $Product.oxicon }]
+                                            [{/if}]" />
+                                    </td>
+                                    <td><input type="text" name="jxbc_amount[]" value="[{ $Product.oxamount }]" size="2" class="jxbcNumInput" /></td>
+                                    <td class="jxbcTitle" style="color:[{$tcolor}];">[{ $Product.oxartnum }]</td>
+                                    <td class="jxbcTitle" style="color:[{$tcolor}];">[{ $Product.oxtitle }][{if $Product.oxvarselect}], [{$Product.oxvarselect}][{/if}]</td>
+                                    <td class="jxbcTitle" style="color:[{$tcolor}];">[{ $Product.oxgtin }]</td>
+                                    <td class="jxbcTitle" style="color:[{$tcolor}];">[{if $Product.jxinvstock}][{ $Product.jxinvstock }][{else}][{ $Product.oxstock }][{/if}]</td>
+                                    <td class="jxbcTitle" align="right" style="color:[{$tcolor}]};">[{ $Product.oxprice|string_format:"%.2f"  }]</td>
+                                </tr>
+                            [{/foreach}]
+                        </table>
+                    </div>
+                </div>
+                        
             [{if $aProducts}]
                 <p><br />
-                <button type="submit" class="btn btn-success btn-lg" onclick="document.forms['jxbc'].elements['oxgtin'].value='';document.forms['jxbc'].elements['fnc'].value='jxbcSaveReceipt';" 
-                    [{if $aProduct|@count > 1}]disabled="disabled"[{/if}]>
+                <button type="button" class="btn btn-success btn-lg" onclick="document.forms['jxbc'].elements['oxgtin'].value='';document.forms['jxbc'].elements['fnc'].value='jxbcSaveReceipt';document.forms.jxbc.submit();" 
+                    [{*if $aProduct|@count > 1}]disabled="disabled"[{/if*}]>
                     [{ oxmultilang ident="JXBC_ADDTOSTOCK" }]
                 </button>
                 &nbsp;&nbsp;
-                <button type="submit" class="btn btn-warning btn-lg" onclick="document.forms['jxbc'].elements['oxgtin'].value='';document.forms['jxbc'].elements['fnc'].value='jxbcUpdateStock';" 
-                    [{if $aProduct|@count > 1}]disabled="disabled"[{/if}]>
+                <button type="button" class="btn btn-warning btn-lg" onclick="document.forms['jxbc'].elements['oxgtin'].value='';document.forms['jxbc'].elements['fnc'].value='jxbcUpdateStock';document.forms.jxbc.submit();" 
+                    [{*if $aProduct|@count > 1}]disabled="disabled"[{/if*}]>
                     [{ oxmultilang ident="JXBC_UPDATESTOCK" }]
                 </button>
                 </p>

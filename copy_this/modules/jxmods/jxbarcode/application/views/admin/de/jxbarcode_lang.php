@@ -11,7 +11,7 @@ $aLang = array(
     'JXBC_PACKING_TITLE'        => 'Bestellung packen',
     
     'JXBC_SEARCH'               => 'Suchen',
-    'JXBC_MULTIPLEFOUND'        => 'Mehrere Artikel gefunden',
+    'JXBC_MULTIPLEFOUND'        => 'Mehrere Artikel mit gleicher EAN gefunden',
     'JXBC_SELECT'               => 'Ausw&auml;hlen',
     'JXBC_SCANDELIVERYNOTE'     => 'Lieferschein scannen',
     'JXBC_DELIVERYNOTENO'       => 'Lieferschein Nr.',

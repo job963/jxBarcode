@@ -1,4 +1,4 @@
-[{include file="headitem.tpl" title="GENERAL_ADMIN_TITLE"|oxmultilangassign box=" "}]
+[{include file="headitem.tpl" title="GENERAL_ADMIN_TITLE"|oxmultilangassign box=" " }]
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
@@ -103,12 +103,12 @@ if(top)
                         <td class="jxbcscanValue">[{ $aproduct.oxprice|string_format:"%.2f" }]</td>
                     </tr>
                     <tr>
-                        <td class="jxbcscanTitle">[{ oxmultilang ident="GENERAL_ARTICLE_OXSTOCK" }]</td>
+                        <td class="jxbcscanTitle">[{ oxmultilang ident="JXBC_SHOPSTOCK" }]</td>
                         <td class="jxbcscanValue">[{ $aproduct.oxstock }]</td>
                     </tr>
                     [{if isset($aproduct.jxinvstock) }]
                         <tr>
-                            <td class="jxbcscanTitle">[{ oxmultilang ident="GENERAL_ARTICLE_OXSTOCK" }]</td>
+                            <td class="jxbcscanTitle">[{ oxmultilang ident="JXBC_INVSTOCK" }]</td>
                             <td class="jxbcscanValue">[{ $aproduct.jxinvstock }]</td>
                         </tr>
                     [{/if}]

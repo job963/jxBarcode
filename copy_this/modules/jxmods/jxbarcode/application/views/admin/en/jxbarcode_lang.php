@@ -11,6 +11,8 @@ $aLang = array(
     'JXBC_PACKING_TITLE'        => 'Make up a order',
     
     'JXBC_SEARCH'               => 'Search',
+    'JXBC_SHOPSTOCK'            => 'Shop Stock',
+    'JXBC_INVSTOCK'             => 'Invent. Stock',
     'JXBC_MULTIPLEFOUND'        => 'Multiple products with same GTIN found',
     'JXBC_SELECT'               => 'Select',
     'JXBC_SCANDELIVERYNOTE'     => 'Scan delivery note',

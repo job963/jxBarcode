@@ -108,13 +108,13 @@
                             <thead>
                                 <tr>
                                     [{assign var="thStyle" value="color:gray;" }]
-                                    <th style="[{$thStyle}]">Vorschau</th>
-                                    <th style="[{$thStyle}]">Menge</th>
-                                    <th style="[{$thStyle}]">Art-Nr</th>
-                                    <th style="[{$thStyle}]">Bezeichnung</th>
-                                    <th style="[{$thStyle}]">EAN</th>
-                                    <th style="[{$thStyle}]">Lager</th>
-                                    <th style="[{$thStyle}];text-align:right;">Preis</th>
+                                    <th style="[{$thStyle}]">[{ oxmultilang ident="GENERAL_ARTICLE_OXTHUMB" }]</th>
+                                    <th style="[{$thStyle}]">[{ oxmultilang ident="ARTICLE_EXTEND_UNITQUANTITY" }]</th>
+                                    <th style="[{$thStyle}]">[{ oxmultilang ident="GENERAL_ARTNUM" }]</th>
+                                    <th style="[{$thStyle}]">[{ oxmultilang ident="GENERAL_ARTICLE_OXTITLE" }]</th>
+                                    <th style="[{$thStyle}]">[{ oxmultilang ident="GENERAL_ARTICLE_OXEAN" }]</th>
+                                    <th style="[{$thStyle}]">[{ oxmultilang ident="GENERAL_AJAX_SORT_OXSTOCK" }]</th>
+                                    <th style="[{$thStyle}];text-align:right;">[{ oxmultilang ident="GENERAL_ARTICLE_OXPRICE" }]</th>
                                 </tr>
                             </thead>
                             [{foreach name=outer item=Product from=$aPackingList}]
@@ -161,7 +161,6 @@
                     <input type="hidden" name="jxInvoiceNo" value="[{ $sInvoiceNo }]">
                     <button type="submit" class="btn btn-success btn-lg" onclick="document.forms['jxbc'].elements['fnc'].value='jxbcSaveFullDelivery';" 
                         [{if $aProduct|@count > 1}]disabled="disabled"[{/if}]>
-                        [{*<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>*}]
                         [{ oxmultilang ident="JXBC_PACKINGCHECKED" }]
                     </button>
                 [{elseif $sInvoiceNo != "" }]

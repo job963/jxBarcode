@@ -83,109 +83,73 @@
             </div>
                 
             [{if $aProduct|@count > 1}]
-                <!--
-                <br />
-                <div class="artSelect">
-                <fieldset class="artSelect">
-                    <legend class="artSelect">&nbsp;[{ oxmultilang ident="JXBC_MULTIPLEFOUND" }]&nbsp;</legend>
-                    <input type="hidden" name="jxbc_prevgtin" value="[{$sprevgtin}]" />
-                    [{assign var="i" value=1}]
-                    [{foreach name=founds item=Product from=$aProduct}]
-                        <input type="radio" name="jxbc_productchoice" value="[{$Product.oxid}]" id="[{$Product.oxid}]" />[{* <span style="display:inline-block; width:100px;">[{ $Product.oxartnum }]</span>[{$Product.oxtitle}]*}]
-                        <label for="[{$Product.oxid}]">
-                            [{if $Product.oxactive == 1}]
-                                <img src="[{$oViewConf->getModuleUrl("jxbarcode","out/admin/img/ico_active.png")}]"/>
-                            [{else}]
-                                <img src="[{$oViewConf->getModuleUrl("jxbarcode","out/admin/img/ico_inactive.png")}]"/>
-                            [{/if}]
-                            <span style="display:inline-block; width:175px;" accesskey="[{$i}]">[{ $Product.oxartnum }]</span>[{$Product.oxtitle}]
-                            [{if $Product.oxvarselect}], [{$Product.oxvarselect}][{/if}]
-                        </label><br>
-                        [{assign var="i" value=$i+1}]
-                    [{/foreach}]
-                    [{*<button style="color:#00439a; font-size:1.1em; font-weight:bold;">Ausw&auml;hlen</button>*}]
-                    <input type="submit" autofocus="autofocus" class=artSelect" value=" [{ oxmultilang ident="JXBC_SELECT" }] " />
-                </fieldset>
-                <audio autoplay>
-                    <source src="[{$questionSound}]" type="audio/mpeg">
-                    Your browser does not support the audio element.
-                </audio>
+                <!-- Modal Popup -->
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog [{*modal-lg*}]" style="max-height:90%; overflow-y:auto;">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel">
+                                    <b>[{ oxmultilang ident="JXBC_MULTIPLEFOUND" }]</b>
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <input type="hidden" name="jxbc_prevgtin" value="[{$sprevgtin}]" />
+                                [{assign var="i" value=1}]
+                                [{assign var="lblStyle" value="font-size:1.4em; height:100%; padding-top:18px; vertical-align:middle;"}]
+                                <table width="95%" style="font-size:1.5em;">
+                                    [{foreach name=founds item=Product from=$aProduct}]
+                                    <tr>
+                                        <td>    
+                                            <input type="radio" name="jxbc_productchoice" value="[{$Product.oxid}]" id="[{$Product.oxid}]" />[{* <span style="display:inline-block; width:100px;">[{ $Product.oxartnum }]</span>[{$Product.oxtitle}]*}]
+                                        </td>
+                                        <td><label for="[{$Product.oxid}]">&nbsp;
+                                            [{if $Product.oxactive == 1}]
+                                                <img src="[{$oViewConf->getModuleUrl("jxbarcode","out/admin/img/ico_active.png")}]" />
+                                            [{else}]
+                                                <img src="[{$oViewConf->getModuleUrl("jxbarcode","out/admin/img/ico_inactive.png")}]" />
+                                            [{/if}]
+                                            </label>
+                                        </td>
+                                        <td><label for="[{$Product.oxid}]">&nbsp;
+                                            <img [{if $Product.oxicon==""}]
+                                                    src="[{ $pic1url}]/[{ $Product.oxpic1 }]"
+                                                [{else}]
+                                                    src="[{ $iconurl}]/[{ $Product.oxicon }]"
+                                                [{/if}] 
+                                                height="66" width="auto" />
+                                            </label>
+                                        </td>
+                                        <td><label for="[{$Product.oxid}]" style="[{$lblStyle}]">
+                                            <span style="" accesskey="[{$i}]">[{ $Product.oxartnum }]</span></label>
+                                        </td>
+                                        <td><label for="[{$Product.oxid}]" style="[{$lblStyle}]">
+                                            [{$Product.oxtitle}]
+                                            [{if $Product.oxvarselect}], [{$Product.oxvarselect}][{/if}]</label>
+                                        </td>
+                                        [{assign var="i" value=$i+1}]
+                                    </tr>
+                                    [{/foreach}]
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary" [{*data-dismiss="modal"*}] onclick="document.forms.jxbc.submit();">
+                                    [{ oxmultilang ident="JXBC_SELECT" }]
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <br />
-                -->
-                
-                
-    <!-- Modal Popup -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog [{*modal-lg*}]" style="max-height:90%; overflow-y:auto;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">
-                        <b>[{ oxmultilang ident="JXBC_MULTIPLEFOUND" }]</b>
-                    </h4>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" name="jxbc_prevgtin" value="[{$sprevgtin}]" />
-                    [{assign var="i" value=1}]
-                    [{assign var="lblStyle" value="font-size:1.4em; height:100%; padding-top:18px; vertical-align:middle;"}]
-                    <table width="95%" style="font-size:1.5em;">
-                        [{foreach name=founds item=Product from=$aProduct}]
-                        <tr>
-                            <td>    
-                                <input type="radio" name="jxbc_productchoice" value="[{$Product.oxid}]" id="[{$Product.oxid}]" />[{* <span style="display:inline-block; width:100px;">[{ $Product.oxartnum }]</span>[{$Product.oxtitle}]*}]
-                            </td>
-                            <td><label for="[{$Product.oxid}]">&nbsp;
-                                [{if $Product.oxactive == 1}]
-                                    <img src="[{$oViewConf->getModuleUrl("jxbarcode","out/admin/img/ico_active.png")}]" />
-                                [{else}]
-                                    <img src="[{$oViewConf->getModuleUrl("jxbarcode","out/admin/img/ico_inactive.png")}]" />
-                                [{/if}]
-                                </label>
-                            </td>
-                            <td><label for="[{$Product.oxid}]">&nbsp;
-                                <img [{if $Product.oxicon==""}]
-                                        src="[{ $pic1url}]/[{ $Product.oxpic1 }]"
-                                    [{else}]
-                                        src="[{ $iconurl}]/[{ $Product.oxicon }]"
-                                    [{/if}] 
-                                    height="66" width="auto" />
-                                </label>
-                            </td>
-                            <td><label for="[{$Product.oxid}]" style="[{$lblStyle}]">
-                                <span style="" accesskey="[{$i}]">[{ $Product.oxartnum }]</span></label>
-                            </td>
-                            <td><label for="[{$Product.oxid}]" style="[{$lblStyle}]">
-                                [{$Product.oxtitle}]
-                                [{if $Product.oxvarselect}], [{$Product.oxvarselect}][{/if}]</label>
-                            </td>
-                            [{assign var="i" value=$i+1}]
-                        </tr>
-                        [{/foreach}]
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" [{*data-dismiss="modal"*}] onclick="document.forms.jxbc.submit();">
-                        [{ oxmultilang ident="JXBC_SELECT" }]
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
              
-    [{if $aProduct|@count > 1}]
-    <script>
-        $("#myModal").modal('show');
-        
-        var $modalDialog = $('.modal-dialog'),
-        modalHeight = $modalDialog.height(),
-        browserHeight = window.innerHeight;
+                <script>
+                    $("#myModal").modal('show');
 
-        $modalDialog.css({'margin-top' : modalHeight >= browserHeight ? 0 : (browserHeight - modalHeight)/2});
-    </script>
-    [{/if}]
-                
-                
+                    var $modalDialog = $('.modal-dialog'),
+                    modalHeight = $modalDialog.height(),
+                    browserHeight = window.innerHeight;
+
+                    $modalDialog.css({'margin-top' : modalHeight >= browserHeight ? 0 : (browserHeight - modalHeight)/2});
+                </script>
             [{/if}]
             
                 <div class="panel panel-default">
@@ -194,13 +158,13 @@
                             <thead>
                                 <tr>
                                     [{assign var="thStyle" value="color:gray;" }]
-                                    <th style="[{$thStyle}]">Vorschau</th>
-                                    <th style="[{$thStyle}]">Menge</th>
-                                    <th style="[{$thStyle}]">Art-Nr</th>
-                                    <th style="[{$thStyle}]">Bezeichnung</th>
-                                    <th style="[{$thStyle}]">EAN</th>
-                                    <th style="[{$thStyle}]">Lager</th>
-                                    <th style="[{$thStyle}];text-align:right;">Preis</th>
+                                    <th style="[{$thStyle}]">[{ oxmultilang ident="GENERAL_ARTICLE_OXTHUMB" }]</th>
+                                    <th style="[{$thStyle}]">[{ oxmultilang ident="ARTICLE_EXTEND_UNITQUANTITY" }]</th>
+                                    <th style="[{$thStyle}]">[{ oxmultilang ident="GENERAL_ARTNUM" }]</th>
+                                    <th style="[{$thStyle}]">[{ oxmultilang ident="GENERAL_ARTICLE_OXTITLE" }]</th>
+                                    <th style="[{$thStyle}]">[{ oxmultilang ident="GENERAL_ARTICLE_OXEAN" }]</th>
+                                    <th style="[{$thStyle}]">[{ oxmultilang ident="GENERAL_AJAX_SORT_OXSTOCK" }]</th>
+                                    <th style="[{$thStyle}];text-align:right;">[{ oxmultilang ident="GENERAL_ARTICLE_OXPRICE" }]</th>
                                 </tr>
                             </thead>
                             [{foreach name=outer item=Product from=$aProducts}]

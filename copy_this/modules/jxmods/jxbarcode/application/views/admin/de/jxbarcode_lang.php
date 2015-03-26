@@ -11,6 +11,8 @@ $aLang = array(
     'JXBC_PACKING_TITLE'        => 'Bestellung packen',
     
     'JXBC_SEARCH'               => 'Suchen',
+    'JXBC_SHOPSTOCK'            => 'Shop Lagerbestand',
+    'JXBC_INVSTOCK'             => 'Invent. Lagerbestand',
     'JXBC_MULTIPLEFOUND'        => 'Mehrere Artikel mit gleicher EAN gefunden',
     'JXBC_SELECT'               => 'Ausw&auml;hlen',
     'JXBC_SCANDELIVERYNOTE'     => 'Lieferschein scannen',

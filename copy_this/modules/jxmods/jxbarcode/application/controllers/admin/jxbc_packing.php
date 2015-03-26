@@ -101,7 +101,7 @@ class jxbc_packing extends jxbc_scan
     public function getPackingList( $sInvoiceNo ) 
     {
         $myConfig = oxRegistry::get( "oxConfig" );
-        $eanField = $myConfig->getConfigParam( "sJxBarcodeEanField" );
+        $eanField = $myConfig->getConfigParam( 'sJxBarcodeEanField' );
 
         $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
         if ( $oDb->getOne( "SHOW TABLES LIKE 'jxinvarticles' ", false, false ) ) {
@@ -111,8 +111,8 @@ class jxbc_packing extends jxbc_scan
         }
         else {
             $sInvFields = ", a.oxstock AS oxstock";
-            $sInvFrom = ", jxinvarticles i";
-            $sInvWhere = "AND a.oxid = i.jxartid";
+            $sInvFrom = "";
+            $sInvWhere = "";
         }
         
         $sSql = "SELECT oa.oxid, oa.oxartnum, oa.oxtitle, oa.oxselvariant AS oxvarselect, 0 AS jxchecked, a.{$eanField} AS oxgtin,"

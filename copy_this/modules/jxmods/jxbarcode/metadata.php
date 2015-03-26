@@ -16,7 +16,7 @@ $aModule = array(
                         'en'=>'Module for barcode reader support.'
                         ),
     'thumbnail'    => 'jxbarcode.png',
-    'version'      => '0.3',
+    'version'      => '0.3.2',
     'author'       => 'Joachim Barthel',
     'url'          => 'https://github.com/job963/jxBarcode',
     'email'        => 'jobarthel@gmail.com',

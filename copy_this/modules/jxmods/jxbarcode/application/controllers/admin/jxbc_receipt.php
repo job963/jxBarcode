@@ -58,7 +58,7 @@ class jxbc_receipt extends jxbc_scan
                     // only one product found by ean
                     $aOneProduct = array();
                     $aOneProduct = $aProduct[0];
-                    if ( $this->yetScanned($aOneProduct['oxid'],$aProducts) )
+                    if ( $this->yetScanned( $aOneProduct['oxid'], $aProducts ) )
                         $aProducts = $this->increaseAmount( $aOneProduct['oxid'], $aProducts );
                     else
                         array_push( $aProducts, $aOneProduct );

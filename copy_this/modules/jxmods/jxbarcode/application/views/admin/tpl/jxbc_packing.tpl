@@ -102,39 +102,57 @@
                     </div>
                 [{/if}]
 
-            <table width="95%" border="0">
-                [{foreach name=outer item=Product from=$aPackingList}]
-                    [{if $Product.pieces|intval < $Product.oxamount }]
-                        [{assign var="tcolor" value="#000000;font-weight:bold"}]
-                        [{assign var="imgopac" value="1.0"}]
-                    [{elseif $Product.pieces|intval > $Product.oxamount }]
-                        [{assign var="tcolor" value="#c08c00"}]
-                        [{assign var="imgopac" value="1.0"}]
-                    [{else}]
-                        [{assign var="tcolor" value="#888888"}]
-                        [{assign var="imgopac" value="0.65"}]
-                    [{/if}]
-                    <input type="hidden" name="jxbc_oxid[]" value="[{$Product.oxid}]">
-                    <tr>
-                        <td align="center">
-                            <img src="[{if $Product.oxicon==""}][{ $pic1url}]/[{ $Product.oxpic1 }][{else}][{ $iconurl}]/[{ $Product.oxicon }][{/if}]" style="opacity:[{$imgopac}];" />
-                        </td>
-                        <td class="jxbcTitle" style="color:[{$tcolor}];">
-                            <input type="text" name="jxbc_pieces[]" value="[{ $Product.pieces }]" size="2" [{*class="jxbcNumInput"*}] />
-                            /
-                            [{ $Product.oxamount }]
-                            [{if $Product.jxsendamount > 0 }]
-                                &nbsp;&nbsp;(<span style="color:gray;"><span class="glyphicon glyphicon-road" aria-hidden="true"></span> = [{ $Product.jxsendamount }]</span>)
-                            [{/if}]
-                        </td>
-                        <td class="jxbcTitle" style="color:[{$tcolor}];">[{ $Product.oxartnum }]</td>
-                        <td class="jxbcTitle" style="color:[{$tcolor}];">[{ $Product.oxtitle }][{if $Product.oxvarselect}], [{$Product.oxvarselect}][{/if}]</td>
-                        <td class="jxbcTitle" style="color:[{$tcolor}];">[{ $Product.oxgtin }]</td>
-                        <td class="jxbcTitle" align="right" style="color:[{$tcolor}]};">[{ $Product.oxprice|string_format:"%.2f"  }]</td>
-                    </tr>
-                [{/foreach}]
-            </table>
-                    <br />
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <table class="table table-hover" width="95%" border="0">
+                            <thead>
+                                <tr>
+                                    [{assign var="thStyle" value="color:gray;" }]
+                                    <th style="[{$thStyle}]">Vorschau</th>
+                                    <th style="[{$thStyle}]">Menge</th>
+                                    <th style="[{$thStyle}]">Art-Nr</th>
+                                    <th style="[{$thStyle}]">Bezeichnung</th>
+                                    <th style="[{$thStyle}]">EAN</th>
+                                    <th style="[{$thStyle}]">Lager</th>
+                                    <th style="[{$thStyle}];text-align:right;">Preis</th>
+                                </tr>
+                            </thead>
+                            [{foreach name=outer item=Product from=$aPackingList}]
+                                [{if $Product.pieces|intval < $Product.oxamount }]
+                                    [{assign var="tcolor" value="#000000"}]
+                                    [{assign var="imgopac" value="1.0"}]
+                                [{elseif $Product.pieces|intval > $Product.oxamount }]
+                                    [{assign var="tcolor" value="#c08c00"}]
+                                    [{assign var="imgopac" value="1.0"}]
+                                [{else}]
+                                    [{assign var="tcolor" value="#888888"}]
+                                    [{assign var="imgopac" value="0.65"}]
+                                [{/if}]
+                                <input type="hidden" name="jxbc_oxid[]" value="[{$Product.oxid}]">
+                                <tr>
+                                    <td align="center">
+                                        <img src="[{if $Product.oxicon==""}][{ $pic1url}]/[{ $Product.oxpic1 }][{else}][{ $iconurl}]/[{ $Product.oxicon }][{/if}]" style="opacity:[{$imgopac}];" />
+                                    </td>
+                                    <td class="jxbcTitle" style="color:[{$tcolor}];">
+                                        <input type="text" name="jxbc_pieces[]" value="[{ $Product.pieces }]" size="2" />
+                                        /
+                                        [{ $Product.oxamount }]
+                                        [{if $Product.jxsendamount > 0 }]
+                                            &nbsp;&nbsp;(<span style="color:gray;"><span class="glyphicon glyphicon-road" aria-hidden="true"></span> = [{ $Product.jxsendamount }]</span>)
+                                        [{/if}]
+                                    </td>
+                                    <td class="jxbcTitle" style="color:[{$tcolor}];">[{ $Product.oxartnum }]</td>
+                                    <td class="jxbcTitle" style="color:[{$tcolor}];">[{ $Product.oxtitle }][{if $Product.oxvarselect}], [{$Product.oxvarselect}][{/if}]</td>
+                                    <td class="jxbcTitle" style="color:[{$tcolor}];">[{ $Product.oxgtin }]</td>
+                                    <td class="jxbcTitle" style="color:[{$tcolor}];">[{if isset($aproduct.jxinvstock) }][{ $Product.jxinvstock }][{else}][{ $Product.oxstock }][{/if}]</td>
+                                    <td class="jxbcTitle" align="right" style="color:[{$tcolor}]};">[{ $Product.oxprice|string_format:"%.2f"  }]</td>
+                                </tr>
+                            [{/foreach}]
+                        </table>
+                    </div>
+                </div>
+            
+                <br />
                 [{if $message == "packing-done" }]
                     [{ $shop->hiddensid }]
                     <input type="hidden" name="editlanguage" value="[{ $editlanguage }]">

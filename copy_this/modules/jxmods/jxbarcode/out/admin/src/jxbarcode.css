@@ -34,6 +34,13 @@ input[type="text"] {
         border: 1px solid lightgray;
         box-shadow: 4px 4px 4px #aaa;
     }
+    label.jxbc {
+        width: 100% !important;
+        height: 100% !important;
+        display: block !important;
+        vertical-align: middle !important;
+        font-size:1.4em;
+    }
 
 //-----------------------------------------
 

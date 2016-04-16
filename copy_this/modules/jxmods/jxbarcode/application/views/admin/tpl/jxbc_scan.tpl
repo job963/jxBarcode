@@ -16,7 +16,7 @@
 [{/php}]
 [{assign var="cssFileUrl" value=$oViewConf->getModuleUrl('jxbarcode','out/admin/src/jxbarcode.css') }]
 [{assign var="cssFileUrl" value="$cssFileUrl?$cssTime" }]
-<link href="[{$cssFileUrl}]" type="text/css" rel="stylesheet">
+<link href="[{$cssFileUrl}]?[{$cssTime}]" type="text/css" rel="stylesheet">
 
 
 <script type="text/javascript">
@@ -84,11 +84,11 @@ if(top)
                             [{/if}]
                         </td>
                         <td class="jxbcscanTitle">[{ oxmultilang ident="GENERAL_ARTNUM" }]</td>
-                        <td class="jxbcscanValue">[{ $aproduct.oxartnum }]</td>
+                        <td class="jxbcscanValueLite">[{ $aproduct.oxartnum }]</td>
                     </tr>
                     <tr>
                         <td class="jxbcscanTitle">[{ oxmultilang ident="GENERAL_ARTICLE_OXTITLE" }]</td>
-                        <td class="jxbcscanValue">[{ $aproduct.oxtitle }]</td>
+                        <td class="jxbcscanValue">[{ $aproduct.oxtitle }][{if $aproduct.oxvarselect != ""}]<span style="color:darkslategray;"> &mdash; [{ $aproduct.oxvarselect }]</span>[{/if}]</td>
                     </tr>
                     <tr>
                         <td class="jxbcscanTitle">[{ oxmultilang ident="GENERAL_ARTICLE_OXEAN" }]</td>
@@ -96,7 +96,7 @@ if(top)
                     </tr>
                     <tr>
                         <td class="jxbcscanTitle">[{ oxmultilang ident="ARTICLE_EXTEND_BPRICE" }]</td>
-                        <td class="jxbcscanValue">[{ $aproduct.oxbprice|string_format:"%.2f" }]</td>
+                        <td class="jxbcscanValueLite">[{ $aproduct.oxbprice|string_format:"%.2f" }]</td>
                     </tr>
                     <tr>
                         <td class="jxbcscanTitle">[{ oxmultilang ident="GENERAL_ARTICLE_OXPRICE" }]</td>
@@ -104,7 +104,7 @@ if(top)
                     </tr>
                     <tr>
                         <td class="jxbcscanTitle">[{ oxmultilang ident="JXBC_SHOPSTOCK" }]</td>
-                        <td class="jxbcscanValue">[{ $aproduct.oxstock }]</td>
+                        <td class="jxbcscanValueLite">[{ $aproduct.oxstock }]</td>
                     </tr>
                     [{if isset($aproduct.jxinvstock) }]
                         <tr>

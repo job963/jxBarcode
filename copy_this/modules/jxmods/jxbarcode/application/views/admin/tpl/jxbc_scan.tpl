@@ -8,14 +8,14 @@
 [{assign var="alertSound" value=$oViewConf->getModuleUrl('jxbarcode','out/admin/audio/alert.mp3') }]
 [{assign var="questionSound" value=$oViewConf->getModuleUrl('jxbarcode','out/admin/audio/question.mp3') }]
 
-[{assign var="cssFilePath" value=$oViewConf->getModulePath('jxbarcode','out/admin/src/oxprobs.css') }]
+[{assign var="cssFilePath" value=$oViewConf->getModulePath('jxbarcode','out/admin/src/jxbarcode.css') }]
 [{php}] 
     $sCssFilePath = $this->get_template_vars('cssFilePath');;
     $sCssTime = filemtime( $sCssFilePath );
     $this->assign('cssTime', $sCssTime);
 [{/php}]
 [{assign var="cssFileUrl" value=$oViewConf->getModuleUrl('jxbarcode','out/admin/src/jxbarcode.css') }]
-[{assign var="cssFileUrl" value="$cssFileUrl?$cssTime" }]
+[{*assign var="cssFileUrl" value="$cssFileUrl?$cssTime" *}]
 <link href="[{$cssFileUrl}]?[{$cssTime}]" type="text/css" rel="stylesheet">
 
 

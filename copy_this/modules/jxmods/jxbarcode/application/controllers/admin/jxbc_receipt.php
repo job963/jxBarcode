@@ -18,7 +18,7 @@
  *
  * @link      https://github.com/job963/jxBarcode
  * @license   http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @copyright (C) Joachim Barthel 2012-2015
+ * @copyright (C) Joachim Barthel 2012-2017
  *
  */
  
@@ -26,6 +26,11 @@ class jxbc_receipt extends jxbc_scan
 {
     protected $_sThisTemplate = "jxbc_receipt.tpl";
     
+    /**
+     * Displays the receipt form and their results
+     * 
+     * @return string
+     */
     public function render()
     {
         parent::render();
@@ -115,6 +120,11 @@ class jxbc_receipt extends jxbc_scan
     }
     
     
+    /**
+     * Saves the articles
+     * 
+     * @return null
+     */
     public function jxbcSaveReceipt()
     {
         $myConfig = oxRegistry::get("oxConfig");
@@ -148,6 +158,11 @@ class jxbc_receipt extends jxbc_scan
     }
     
     
+    /**
+     * Updates the stock of the shop
+     * 
+     * @return null
+     */
     public function jxbcUpdateStock()
     {
         $myConfig = oxRegistry::get("oxConfig");

@@ -18,7 +18,7 @@
  *
  * @link      https://github.com/job963/jxBarcode
  * @license   http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @copyright (C) Joachim Barthel 2012-2015
+ * @copyright (C) Joachim Barthel 2012-2017
  *
  */
 
@@ -37,6 +37,7 @@ class jxbarcode_myorder extends jxbarcode_myorder_parent
     /**
      * ------ Extension by jxBarcode module ------
      * Method creates barcode with invoice number as content
+     * 
      * @return null
      */
     public function pdfBarcode( $oPdf )

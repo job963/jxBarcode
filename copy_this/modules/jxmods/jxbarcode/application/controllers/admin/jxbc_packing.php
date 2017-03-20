@@ -18,7 +18,7 @@
  *
  * @link      https://github.com/job963/jxBarcode
  * @license   http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @copyright (C) Joachim Barthel 2012-2015
+ * @copyright (C) Joachim Barthel 2012-2017
  *
  */
  
@@ -26,6 +26,11 @@ class jxbc_packing extends jxbc_scan
 {
     protected $_sThisTemplate = "jxbc_packing.tpl";
     
+    /**
+     * Displays the packing list
+     * 
+     * @return string
+     */
     public function render()
     {
         $myConfig = oxRegistry::get("oxConfig");
@@ -95,8 +100,12 @@ class jxbc_packing extends jxbc_scan
     }
     
     
-    /*
+    /**
+     * Retrieves the list of articles of invoice
      * 
+     * @param string $sInvoiceNo
+     * 
+     * @return array
      */
     public function getPackingList( $sInvoiceNo ) 
     {
@@ -147,6 +156,14 @@ class jxbc_packing extends jxbc_scan
     }
     
     
+    /**
+     * Adds an article to the article list
+     * 
+     * @param array $aPieces
+     * @param array $aPackingList
+     * 
+     * @return array
+     */
     public function addPieces( $aPieces, $aPackingList )
     {
         foreach ($aPackingList as $key => $Product) {
@@ -156,6 +173,14 @@ class jxbc_packing extends jxbc_scan
     }
     
     
+    /**
+     * Checks if the packing list is complete
+     * 
+     * @param array $aPieces
+     * @param array $aPackingList
+     * 
+     * @return int
+     */
     public function checkPackingDone( $aPieces, $aPackingList )
     {
         $done = TRUE;
@@ -178,6 +203,14 @@ class jxbc_packing extends jxbc_scan
     }
     
     
+    /**
+     * Checks if the article with given $sGtin is in the packing list
+     * 
+     * @param string $sGtin
+     * @param array $aPackingList
+     * 
+     * @return boolean
+     */
     public function isGtinInPackingList( $sGtin, $aPackingList )
     {
         if (strlen($sGtin) == 12)  //UPC-Code
@@ -192,6 +225,13 @@ class jxbc_packing extends jxbc_scan
     }
     
     
+    /**
+     * Retrieves checking status
+     * 
+     * @param string $sInvoiceNo
+     * 
+     * @return boolean
+     */
     public function isPackingChecked( $sInvoiceNo )
     {
         $oDb = oxDb::getDb();
@@ -202,6 +242,14 @@ class jxbc_packing extends jxbc_scan
     }
     
     
+    /**
+     * Adds an article to the packing list
+     * 
+     * @param type $sGtin
+     * @param type $aPackingList
+     * 
+     * @return array
+     */
     public function addPieceToPacking( $sGtin, $aPackingList )
     {
         foreach ($aPackingList as $key => $aProduct) {
@@ -213,6 +261,11 @@ class jxbc_packing extends jxbc_scan
     }
     
     
+    /**
+     * Saves a partially packing list
+     * 
+     * @return null
+     */
     public function jxbcSavePartDelivery()
     {
         $myConfig = oxRegistry::get("oxConfig");
@@ -241,6 +294,11 @@ class jxbc_packing extends jxbc_scan
     }
     
     
+    /**
+     * Saves the completed packing list
+     * 
+     * @return null
+     */
     public function jxbcSaveFullDelivery()
     {
         $myConfig = oxRegistry::get("oxConfig");

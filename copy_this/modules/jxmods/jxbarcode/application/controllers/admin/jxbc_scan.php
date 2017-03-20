@@ -18,7 +18,7 @@
  *
  * @link      https://github.com/job963/jxBarcode
  * @license   http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @copyright (C) Joachim Barthel 2012-2015
+ * @copyright (C) Joachim Barthel 2012-2017
  *
  */
  
@@ -26,6 +26,11 @@ class jxbc_scan extends oxAdminView
 {
     protected $_sThisTemplate = "jxbc_scan.tpl";
     
+    /**
+     * Displays the form for an info scan - or - the result of an info scan
+     * 
+     * @return string 
+     */
     public function render()
     {
         parent::render();
@@ -57,6 +62,13 @@ class jxbc_scan extends oxAdminView
     }
 
     
+    /**
+     * Retrieves all articles matching the given parameter $sGtin
+     * 
+     * @param string $sGtin
+     * 
+     * @return array
+     */
     public function getArticleByGtin($sGtin)
     {
         if (strlen($sGtin) == 12) {   //UPC-Code
@@ -66,13 +78,11 @@ class jxbc_scan extends oxAdminView
         $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
         if ( $oDb->getOne( "SHOW TABLES LIKE 'jxinvarticles' ", false, false ) ) {
             $sInvFields = ", jxinvstock";
-            $sInvFrom = ", jxinvarticles i";
-            $sInvWhere = "AND a.oxid = i.jxartid";
+            $sInvLeftJoin = "LEFT JOIN jxinvarticles i ON (a.oxid = i.jxartid)";
         }
         else {
             $sInvFields = "";
-            $sInvFrom = "";
-            $sInvWhere = "";
+            $sInvLeftJoin = "";
         }
         $myConfig = oxRegistry::get( "oxConfig" );
         $eanField = $myConfig->getConfigParam( "sJxBarcodeEanField" );
@@ -83,8 +93,8 @@ class jxbc_scan extends oxAdminView
                     . "IF(a.oxparentid != '' && a.oxpic1 = '' ,(SELECT c.oxpic1 FROM oxarticles c WHERE c.oxid=a.oxparentid),a.oxpic1) AS oxpic1 "
                     . " {$sInvFields} "
                 . "FROM oxarticles a {$sInvFrom} "
-                . "WHERE a.{$eanField} = '{$sGtin}' "
-                    . " {$sInvWhere} ";
+                    . "{$sInvLeftJoin} "
+                . "WHERE a.{$eanField} = '{$sGtin}' ";
 
         //echo '<pre>'.$sSql.'</pre>';
         $rs = $oDb->Execute($sSql);
@@ -99,18 +109,23 @@ class jxbc_scan extends oxAdminView
     }
 
     
+    /**
+     * Retrieves the article matching the given $sOxid
+     * 
+     * @param type $sOxid
+     * 
+     * @return array
+     */
     public function getArticleById($sOxid)
     {
         $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
         if ( $oDb->getOne( "SHOW TABLES LIKE 'jxinvarticles' ", false, false ) ) {
             $sInvFields = ", jxinvstock";
-            $sInvFrom = ", jxinvarticles i";
-            $sInvWhere = "AND a.oxid = i.jxartid";
+            $sInvLeftJoin = "LEFT JOIN jxinvarticles i ON (a.oxid = i.jxartid)";
         }
         else {
             $sInvFields = "";
-            $sInvFrom = "";
-            $sInvWhere = "";
+            $sInvLeftJoin = "";
         }
         $myConfig = oxRegistry::get( "oxConfig" );
         $eanField = $myConfig->getConfigParam( "sJxBarcodeEanField" );
@@ -121,8 +136,8 @@ class jxbc_scan extends oxAdminView
                     . "IF(a.oxparentid != '' && a.oxpic1 = '' ,(SELECT c.oxpic1 FROM oxarticles c WHERE c.oxid=a.oxparentid),a.oxpic1) AS oxpic1 "
                     . " {$sInvFields} "
                 . "FROM oxarticles a {$sInvFrom} "
-                . "WHERE a.oxid = '{$sOxid}' "
-                    . " {$sInvWhere} ";
+                    . "{$sInvLeftJoin} "
+                . "WHERE a.oxid = '{$sOxid}' ";
 
         //echo '<pre>'.$sSql.'</pre>';
         $rs = $oDb->Execute($sSql);
